@@ -79,7 +79,7 @@ function TopBar() {
 /* ---------------- HERO ---------------- */
 function Hero() {
   return (
-    <section id="top" className="relative pt-4 pb-10 md:pt-32 md:pb-20">
+    <section id="top" className="relative pt-9 pb-10 md:pt-32 md:pb-20">
       {/* Ambient glows */}
       <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-[600px] w-[900px] rounded-full opacity-60 blur-3xl"
            style={{ background: "radial-gradient(closest-side, oklch(0.7 0.22 295 / 0.45), transparent)" }} />
