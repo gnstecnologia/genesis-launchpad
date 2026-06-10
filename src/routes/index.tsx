@@ -32,7 +32,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Transforme o marketing da sua empresa em uma máquina de gerar oportunidades, vendas e posicionamento. Estratégia, tráfego, audiovisual, IA e CRM conectados.",
+          "Transforme sua empresa em uma máquina de gerar oportunidades, vendas e posicionamento. Estratégia, tráfego, audiovisual, IA e CRM conectados.",
       },
       { property: "og:title", content: "Genesis Company — Marketing que vira crescimento" },
       {
@@ -94,7 +94,7 @@ function Hero() {
         {/* Headline */}
         <div className="mt-7 sm:mt-10 text-center lg:text-left animate-fade-up max-w-3xl mx-auto lg:mx-0">
           <h1 className="text-[2rem] leading-[1.08] sm:text-5xl lg:text-6xl font-bold tracking-tight">
-            Transforme o marketing da sua empresa em uma{" "}
+            Transforme sua empresa em uma{" "}
             <span className="gradient-text">máquina</span> de gerar{" "}
             <span className="gradient-text">oportunidades</span>,{" "}
             <span className="gradient-text">vendas</span> e{" "}
