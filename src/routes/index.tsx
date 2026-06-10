@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import clublissLogo from "@/assets/clubliss.png.asset.json";
 import { useState, type FormEvent } from "react";
 import {
   ArrowRight,
