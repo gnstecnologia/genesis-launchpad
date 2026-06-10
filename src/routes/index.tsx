@@ -101,7 +101,7 @@ function Hero() {
             <span className="gradient-text">posicionamento</span>.
           </h1>
           <p className="mt-4 sm:mt-5 text-[15px] sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
-            A Genesis Company atua como o <strong className="text-foreground">departamento de marketing</strong> da sua empresa — conectando estratégia, tráfego pago, audiovisual, marca, tecnologia e vendas para atrair clientes mais qualificados e acelerar o crescimento.
+            A Genesis atua como o departamento de marketing da sua empresa, conectando estratégia, tráfego pago, audiovisual, marca, tecnologia e vendas para fazer sua empresa faturar mais.
           </p>
         </div>
 
@@ -219,11 +219,11 @@ function ReferenceCards() {
 
 /* ---------------- INLINE LOGOS (social proof) ---------------- */
 function InlineLogos() {
-  const clients = ["Pello Menos", "Rubi Laser", "Big Man", "Óticas Carol", "Club Liss", "EH Medical"];
+  const clients = ["Pello Menos", "Big Man", "Óticas Carol", "Club Liss"];
   return (
     <div className="text-center">
       <p className="text-[10px] sm:text-xs uppercase tracking-[0.22em] gradient-text font-semibold">
-        Empresas que confiam na Genesis Company
+        EMPRESAS QUE CONFIAM NA GENESIS
       </p>
       <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 opacity-80">
         {clients.map((c) => (
@@ -329,13 +329,10 @@ function LeadForm() {
            style={{ background: "var(--gradient-brand)" }} />
       <div className="relative">
         <div className="flex items-center gap-2 mb-3">
-          <span className="chip"><Sparkles className="h-3 w-3" /> Diagnóstico gratuito</span>
         </div>
         <h3 className="text-xl md:text-2xl font-bold leading-tight">
-          Receba um diagnóstico gratuito do marketing da sua empresa
         </h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          Preencha seus dados e nossa equipe vai entender o momento atual do seu negócio para mostrar como uma estratégia mais completa pode ajudar sua empresa a vender mais, se posicionar melhor e crescer com previsibilidade.
         </p>
 
         {sent ? (
@@ -422,7 +419,7 @@ function Select({ name, options }: { name: string; options: string[] }) {
 
 /* ---------------- LOGOS ---------------- */
 function LogosStrip() {
-  const clients = ["Pello Menos", "Rubi Laser", "Big Man Barbearia", "Óticas Carol", "Club Liss", "EH Medical"];
+  const clients = ["Pello Menos", "Big Man Barbearia", "Óticas Carol", "Club Liss"];
   const loop = [...clients, ...clients];
   return (
     <section className="border-y border-white/5 py-10 bg-white/[0.02]">
