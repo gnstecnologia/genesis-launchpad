@@ -51,6 +51,7 @@ function LandingPage() {
       <TopBar />
       <Nav />
       <Hero />
+      <LogosStrip />
       <PainSection />
       <PositioningSection />
       <ServicesSection />
