@@ -68,7 +68,7 @@ function LandingPage() {
 function TopBar() {
   return (
     <div
-      className="fixed top-0 inset-x-0 z-[60] text-center text-[11px] sm:text-xs font-medium py-2 px-4 text-white"
+      className="fixed top-0 inset-x-0 z-[60] text-center text-[9px] sm:text-[11px] font-medium py-1.5 px-3 text-white leading-tight whitespace-nowrap"
       style={{ background: "var(--gradient-brand)" }}
     >
       Solução estratégica para empresas que faturam acima de <strong>R$ 50 mil</strong> por mês
