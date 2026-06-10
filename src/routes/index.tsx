@@ -49,7 +49,6 @@ function LandingPage() {
   return (
     <div className="min-h-screen text-foreground overflow-x-hidden">
       <TopBar />
-      <Nav />
       <Hero />
       <LogosStrip />
       <PainSection />
@@ -73,32 +72,6 @@ function TopBar() {
     >
       Solução estratégica para empresas que faturam acima de <strong>R$ 50 mil</strong> por mês
     </div>
-  );
-}
-
-/* ---------------- NAV ---------------- */
-function Nav() {
-  return (
-    <header className="fixed top-8 inset-x-0 z-50 flex justify-center px-3">
-      <div className="glass-strong w-full max-w-6xl rounded-full pl-4 pr-2 py-2 flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2 min-w-0">
-          <div className="h-7 w-7 rounded-lg grid place-items-center shrink-0" style={{ background: "var(--gradient-brand)" }}>
-            <Sparkles className="h-3.5 w-3.5 text-background" />
-          </div>
-          <span className="font-display font-bold tracking-tight text-sm sm:text-base truncate">
-            Genesis<span className="gradient-text">.</span>
-          </span>
-        </a>
-        <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
-          <a href="#servicos" className="hover:text-foreground transition">Serviços</a>
-          <a href="#processo" className="hover:text-foreground transition">Processo</a>
-          <a href="#para-quem" className="hover:text-foreground transition">Para quem</a>
-        </nav>
-        <a href="#diagnostico" className="btn-primary !py-1.5 !px-3 text-xs sm:!px-4 sm:text-sm shrink-0">
-          Diagnóstico grátis <ArrowRight className="h-3.5 w-3.5" />
-        </a>
-      </div>
-    </header>
   );
 }
 
