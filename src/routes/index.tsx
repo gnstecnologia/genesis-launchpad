@@ -372,37 +372,49 @@ function LeadForm() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="mt-5 grid gap-3">
-            <div className="grid sm:grid-cols-2 gap-3">
-              <Field name="nome" placeholder="Seu nome" />
-              <Field name="whatsapp" placeholder="WhatsApp" />
+            <Field name="nome" type="text" placeholder="Seu nome completo" />
+            <Field name="email" type="email" placeholder="Seu melhor e-mail" />
+            <div className="grid grid-cols-[64px_1fr] gap-2">
+              <div className="rounded-xl bg-white/5 border border-white/10 px-3 py-3 text-sm flex items-center justify-center text-muted-foreground">
+                +55
+              </div>
+              <Field name="whatsapp" type="tel" placeholder="(11) 99999-9999" />
             </div>
-            <Field name="empresa" placeholder="Nome da empresa" />
-            <div className="grid sm:grid-cols-2 gap-3">
-              <Field name="segmento" placeholder="Segmento" />
-              <Select name="faturamento" options={[
-                "Faturamento mensal",
-                "Até R$ 50 mil",
-                "R$ 50 mil – R$ 200 mil",
-                "R$ 200 mil – R$ 500 mil",
-                "R$ 500 mil – R$ 1 milhão",
-                "Acima de R$ 1 milhão",
-              ]} />
-            </div>
+            <Field name="empresa" type="text" placeholder="Nome da sua empresa" />
+            <Select name="faturamento" options={[
+              "Selecione seu faturamento mensal",
+              "Até R$ 50 mil",
+              "R$ 50 mil – R$ 200 mil",
+              "R$ 200 mil – R$ 500 mil",
+              "R$ 500 mil – R$ 1 milhão",
+              "Acima de R$ 1 milhão",
+            ]} />
+            <Select name="segmento" options={[
+              "Selecione o segmento da sua empresa",
+              "Saúde e estética",
+              "Serviços profissionais",
+              "E-commerce e varejo",
+              "Educação",
+              "Indústria",
+              "Tecnologia / SaaS",
+              "Outro",
+            ]} />
             <Select name="desafio" options={[
-              "Maior desafio atual",
+              "Qual seu maior desafio hoje?",
               "Gerar mais leads qualificados",
               "Estruturar marketing e marca",
               "Aumentar vendas e previsibilidade",
               "Profissionalizar conteúdo e audiovisual",
               "Implementar CRM, IA e automação",
             ]} />
-            <button type="submit" className="btn-primary mt-2 w-full !py-3.5">
+            <button type="submit" className="btn-primary mt-1 w-full !py-3.5">
               Quero receber meu diagnóstico <ArrowRight className="h-4 w-4" />
             </button>
             <p className="text-xs text-muted-foreground flex items-center gap-2 justify-center mt-1">
               <Lock className="h-3 w-3" /> Seus dados estão seguros. Sem spam. Atendimento consultivo.
             </p>
           </form>
+
         )}
       </div>
     </div>
