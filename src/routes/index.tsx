@@ -78,7 +78,7 @@ function TopBar() {
 /* ---------------- HERO ---------------- */
 function Hero() {
   return (
-    <section id="top" className="relative pt-24 pb-12 md:pt-32 md:pb-20">
+    <section id="top" className="relative pt-12 pb-10 md:pt-32 md:pb-20">
       {/* Ambient glows */}
       <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-[600px] w-[900px] rounded-full opacity-60 blur-3xl"
            style={{ background: "radial-gradient(closest-side, oklch(0.7 0.22 295 / 0.45), transparent)" }} />
@@ -87,28 +87,29 @@ function Hero() {
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-5">
         {/* MOBILE-FIRST: Visual references first */}
-        <div className="mt-2 animate-fade-up">
+        <div className="animate-fade-up">
           <ReferenceCards />
         </div>
 
         {/* Headline */}
-        <div className="mt-7 sm:mt-10 text-center lg:text-left animate-fade-up max-w-3xl mx-auto lg:mx-0">
-          <h1 className="text-[2rem] leading-[1.08] sm:text-5xl lg:text-6xl font-bold tracking-tight">
+        <div className="mt-5 sm:mt-10 text-center lg:text-left animate-fade-up max-w-3xl mx-auto lg:mx-0">
+          <h1 className="text-[1.55rem] leading-[1.12] sm:text-5xl lg:text-6xl font-bold tracking-tight">
             Transforme sua empresa em uma{" "}
             <span className="gradient-text">máquina</span> de gerar{" "}
             <span className="gradient-text">oportunidades</span>,{" "}
             <span className="gradient-text">vendas</span> e{" "}
             <span className="gradient-text">posicionamento</span>.
           </h1>
-          <p className="mt-4 sm:mt-5 text-[15px] sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
+          <p className="mt-2.5 sm:mt-5 text-[13px] sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
             A Genesis atua como o departamento de marketing da sua empresa, conectando estratégia, tráfego pago, audiovisual, marca, tecnologia e vendas para fazer sua empresa faturar mais.
           </p>
         </div>
 
         {/* Social proof — inline, before form */}
-        <div className="mt-8 animate-fade-up">
+        <div className="mt-5 animate-fade-up">
           <InlineLogos />
         </div>
+
 
         {/* Two-column layout: form first on mobile, dashboard on desktop */}
         <div className="mt-8 grid lg:grid-cols-[1fr_1.05fr] gap-10 items-start">
@@ -136,7 +137,7 @@ function Hero() {
   );
 }
 
-/* ---------------- REFERENCE CARDS (Turbo-style creator strip) ---------------- */
+/* ---------------- REFERENCE CARDS (auto-scrolling video-style marquee) ---------------- */
 function ReferenceCards() {
   const cards = [
     {
@@ -145,8 +146,9 @@ function ReferenceCards() {
       metric: "ROAS",
       value: "6.2x",
       icon: Target,
-      hue: "from-fuchsia-500/40 via-purple-600/30 to-indigo-600/40",
+      hue: "from-fuchsia-500/50 via-purple-600/40 to-indigo-700/50",
       kpi: "1.842 leads",
+      handle: "@pellomenos",
     },
     {
       tag: "Audiovisual",
@@ -154,8 +156,9 @@ function ReferenceCards() {
       metric: "CTR",
       value: "4.8%",
       icon: Video,
-      hue: "from-pink-500/40 via-rose-500/30 to-orange-500/40",
+      hue: "from-pink-500/50 via-rose-500/40 to-orange-500/50",
       kpi: "+312% views",
+      handle: "@rubilaser",
     },
     {
       tag: "CRM + IA",
@@ -163,8 +166,9 @@ function ReferenceCards() {
       metric: "Conv.",
       value: "38%",
       icon: Bot,
-      hue: "from-violet-500/40 via-blue-500/30 to-cyan-500/40",
+      hue: "from-violet-500/50 via-blue-500/40 to-cyan-500/50",
       kpi: "86 reuniões",
+      handle: "@bigman",
     },
     {
       tag: "Performance",
@@ -172,32 +176,48 @@ function ReferenceCards() {
       metric: "Pipeline",
       value: "R$1.2M",
       icon: BarChart3,
-      hue: "from-emerald-500/40 via-teal-500/30 to-violet-500/40",
+      hue: "from-emerald-500/50 via-teal-500/40 to-violet-500/50",
       kpi: "+62% MoM",
+      handle: "@oticascarol",
+    },
+    {
+      tag: "Branding",
+      title: "Reposicionamento",
+      metric: "Awareness",
+      value: "+184%",
+      icon: Sparkles,
+      hue: "from-amber-500/50 via-orange-500/40 to-rose-500/50",
+      kpi: "12M alcance",
+      handle: "@clubliss",
     },
   ];
+  const loop = [...cards, ...cards];
   return (
-    <div className="relative -mx-4 sm:-mx-5">
-      <div className="flex gap-3 overflow-x-auto px-4 sm:px-5 pb-3 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {cards.map((c, i) => (
+    <div className="relative -mx-4 sm:-mx-5 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
+      <div className="flex gap-3 w-max animate-marquee py-1 px-2">
+        {loop.map((c, i) => (
           <div
-            key={c.title}
-            className="snap-start shrink-0 w-[44vw] max-w-[180px] sm:w-[200px] aspect-[3/4] relative rounded-2xl overflow-hidden glass-strong"
-            style={{ transform: `rotate(${i % 2 === 0 ? -1.5 : 1.5}deg)` }}
+            key={i}
+            className="shrink-0 w-[42vw] max-w-[170px] sm:w-[180px] aspect-[9/14] relative rounded-2xl overflow-hidden glass-strong"
           >
             <div className={`absolute inset-0 bg-gradient-to-br ${c.hue}`} />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            {/* Tag */}
-            <div className="absolute top-2.5 left-2.5">
-              <span className="inline-flex items-center gap-1 rounded-full bg-white/90 text-black text-[10px] font-semibold px-2 py-0.5">
+            {/* Simulated video noise/grain */}
+            <div className="absolute inset-0 opacity-30 mix-blend-overlay"
+                 style={{ backgroundImage: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.3), transparent 40%), radial-gradient(circle at 70% 80%, rgba(255,255,255,0.2), transparent 50%)" }} />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+            {/* Top tag */}
+            <div className="absolute top-2 left-2">
+              <span className="inline-flex items-center gap-1 rounded-full bg-white/95 text-black text-[10px] font-semibold px-2 py-0.5">
                 <c.icon className="h-2.5 w-2.5" /> {c.tag}
               </span>
             </div>
-            {/* Decorative chart */}
-            <div className="absolute inset-x-3 top-1/3 opacity-70">
-              <svg viewBox="0 0 100 30" className="w-full h-10">
-                <path d="M0,25 Q25,15 50,18 T100,5" fill="none" stroke="white" strokeWidth="1.5" opacity="0.6" />
-              </svg>
+            {/* Play indicator */}
+            <div className="absolute top-2 right-2 h-5 w-5 rounded-full bg-black/40 backdrop-blur flex items-center justify-center">
+              <span className="block h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse-glow" />
+            </div>
+            {/* Handle */}
+            <div className="absolute bottom-[58px] left-2.5 text-white/85 text-[10px] font-medium">
+              {c.handle}
             </div>
             {/* Bottom info */}
             <div className="absolute bottom-0 inset-x-0 p-2.5 text-white">
@@ -205,7 +225,7 @@ function ReferenceCards() {
               <div className="mt-1 flex items-end justify-between">
                 <div>
                   <div className="text-[9px] uppercase tracking-wider opacity-70">{c.metric}</div>
-                  <div className="text-lg font-bold gradient-text leading-none">{c.value}</div>
+                  <div className="text-base font-bold gradient-text leading-none">{c.value}</div>
                 </div>
                 <div className="text-[9px] text-emerald-300 font-semibold">{c.kpi}</div>
               </div>
@@ -216,6 +236,7 @@ function ReferenceCards() {
     </div>
   );
 }
+
 
 /* ---------------- INLINE LOGOS (social proof) ---------------- */
 function InlineLogos() {
