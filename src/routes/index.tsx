@@ -139,7 +139,17 @@ function Hero() {
 
 /* ---------------- REFERENCE CARDS (auto-scrolling video-style marquee) ---------------- */
 function ReferenceCards() {
-  const cards = [
+  const cards: Array<{
+    tag: string;
+    title: string;
+    metric: string;
+    value: string;
+    icon: typeof Target;
+    hue: string;
+    kpi: string;
+    handle: string;
+    videoSrc?: string;
+  }> = [
     {
       tag: "Tráfego",
       title: "Campanha Black",
