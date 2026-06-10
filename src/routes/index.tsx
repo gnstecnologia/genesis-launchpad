@@ -68,7 +68,7 @@ function LandingPage() {
 function TopBar() {
   return (
     <div
-      className="fixed top-0 inset-x-0 z-[60] text-center text-[11px] sm:text-xs font-medium py-2 px-4 text-white"
+      className="fixed top-0 inset-x-0 z-[60] text-center text-[9px] sm:text-[11px] font-medium py-1.5 px-3 text-white leading-tight whitespace-nowrap"
       style={{ background: "var(--gradient-brand)" }}
     >
       Solução estratégica para empresas que faturam acima de <strong>R$ 50 mil</strong> por mês
@@ -79,7 +79,7 @@ function TopBar() {
 /* ---------------- HERO ---------------- */
 function Hero() {
   return (
-    <section id="top" className="relative pt-4 pb-10 md:pt-32 md:pb-20">
+    <section id="top" className="relative pt-9 pb-10 md:pt-32 md:pb-20">
       {/* Ambient glows */}
       <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-[600px] w-[900px] rounded-full opacity-60 blur-3xl"
            style={{ background: "radial-gradient(closest-side, oklch(0.7 0.22 295 / 0.45), transparent)" }} />
