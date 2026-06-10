@@ -258,35 +258,38 @@ function ReferenceCards() {
             key={i}
             className="shrink-0 w-[31vw] max-w-[128px] sm:w-[140px] aspect-[9/15] relative rounded-xl overflow-hidden glass-strong"
           >
-            {c.videoSrc ? (
+            {/* Gradient always visible as background/poster while video loads */}
+            <div className={`absolute inset-0 bg-gradient-to-br ${c.hue}`} />
+            <div className="absolute inset-0 opacity-30 mix-blend-overlay"
+                 style={{ backgroundImage: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.3), transparent 40%), radial-gradient(circle at 70% 80%, rgba(255,255,255,0.2), transparent 50%)" }} />
+
+            {c.videoSrc && (
               <video
                 src={c.videoSrc}
                 autoPlay
                 muted
                 loop
                 playsInline
+                preload="metadata"
                 className="absolute inset-0 h-full w-full object-cover"
+                style={{ zIndex: 1 }}
               />
-            ) : (
-              <>
-                <div className={`absolute inset-0 bg-gradient-to-br ${c.hue}`} />
-                <div className="absolute inset-0 opacity-30 mix-blend-overlay"
-                     style={{ backgroundImage: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.3), transparent 40%), radial-gradient(circle at 70% 80%, rgba(255,255,255,0.2), transparent 50%)" }} />
-              </>
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+
+            {/* Overlays with explicit z-index to render above video on iOS Safari */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" style={{ zIndex: 2 }} />
             {/* Top tag */}
-            <div className="absolute top-1.5 left-1.5">
+            <div className="absolute top-1.5 left-1.5" style={{ zIndex: 3 }}>
               <span className="inline-flex items-center gap-1 rounded-full bg-white/95 text-black text-[9px] font-semibold px-1.5 py-0.5">
                 <c.icon className="h-2 w-2" /> {c.tag}
               </span>
             </div>
             {/* Live indicator */}
-            <div className="absolute top-1.5 right-1.5 h-4 w-4 rounded-full bg-black/40 backdrop-blur flex items-center justify-center">
+            <div className="absolute top-1.5 right-1.5 h-4 w-4 rounded-full bg-black/40 backdrop-blur flex items-center justify-center" style={{ zIndex: 3 }}>
               <span className="block h-1 w-1 rounded-full bg-red-500 animate-pulse-glow" />
             </div>
             {/* Bottom info */}
-            <div className="absolute bottom-0 inset-x-0 p-2 text-white">
+            <div className="absolute bottom-0 inset-x-0 p-2 text-white" style={{ zIndex: 3 }}>
               <div className="text-[10px] font-semibold leading-tight">{c.title}</div>
               <div className="mt-0.5 flex items-end justify-between">
                 <div className="text-sm font-bold gradient-text leading-none">{c.value}</div>
@@ -410,7 +413,7 @@ function DashboardComposition() {
 }
 
 // Cole aqui a URL do seu Google Apps Script após deployar
-const SHEETS_ENDPOINT = "https://script.google.com/a/macros/companygenesis.com.br/s/AKfycbwofAoHs-xBX8lTIsHpfVi0ttVDoorgMTIaR9X0peORydyUL7RTVDWBvi_xFuM89gSA/exec";
+const SHEETS_ENDPOINT = "https://script.google.com/a/macros/companygenesis.com.br/s/AKfycbzsi3ptbQUBGXwULTfNdru30BLRUiGD_DTSz-1UkU_y6NrT0obKNIIFM4uAN8Sg1VHx/exec";
 
 /* ---------------- FORM ---------------- */
 function LeadForm() {
