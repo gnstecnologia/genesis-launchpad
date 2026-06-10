@@ -421,10 +421,11 @@ function LeadForm() {
   );
 }
 
-function Field({ name, placeholder }: { name: string; placeholder: string }) {
+function Field({ name, placeholder, type = "text" }: { name: string; placeholder: string; type?: string }) {
   return (
     <input
       name={name}
+      type={type}
       required
       placeholder={placeholder}
       className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/30 transition"
