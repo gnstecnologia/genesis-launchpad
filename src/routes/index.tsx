@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import clublissLogo from "@/assets/clubliss.png.asset.json";
 import { useState, type FormEvent } from "react";
 import {
   ArrowRight,
@@ -78,7 +79,7 @@ function TopBar() {
 /* ---------------- HERO ---------------- */
 function Hero() {
   return (
-    <section id="top" className="relative pt-12 pb-10 md:pt-32 md:pb-20">
+    <section id="top" className="relative pt-4 pb-10 md:pt-32 md:pb-20">
       {/* Ambient glows */}
       <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-[600px] w-[900px] rounded-full opacity-60 blur-3xl"
            style={{ background: "radial-gradient(closest-side, oklch(0.7 0.22 295 / 0.45), transparent)" }} />
@@ -92,23 +93,25 @@ function Hero() {
         </div>
 
         {/* Headline */}
-        <div className="mt-5 sm:mt-10 text-center lg:text-left animate-fade-up max-w-3xl mx-auto lg:mx-0">
-          <h1 className="text-[1.55rem] leading-[1.12] sm:text-5xl lg:text-6xl font-bold tracking-tight">
+        <div className="mt-3 sm:mt-10 text-center lg:text-left animate-fade-up max-w-3xl mx-auto lg:mx-0">
+          <h1 className="text-[1.45rem] leading-[1.12] sm:text-5xl lg:text-6xl font-bold tracking-tight">
             Transforme sua empresa em uma{" "}
             <span className="gradient-text">máquina</span> de gerar{" "}
             <span className="gradient-text">oportunidades</span>,{" "}
             <span className="gradient-text">vendas</span> e{" "}
             <span className="gradient-text">posicionamento</span>.
           </h1>
-          <p className="mt-2.5 sm:mt-5 text-[13px] sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
-            A Genesis atua como o departamento de marketing da sua empresa, conectando estratégia, tráfego pago, audiovisual, marca, tecnologia e vendas para fazer sua empresa faturar mais.
+          <p className="mt-2 sm:mt-5 text-[11.5px] sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-snug whitespace-nowrap sm:whitespace-normal overflow-hidden text-ellipsis sm:overflow-visible">
+            <span className="sm:hidden">Marketing, vendas e tecnologia em um só lugar.</span>
+            <span className="hidden sm:inline">A Genesis atua como o departamento de marketing da sua empresa, conectando estratégia, tráfego pago, audiovisual, marca, tecnologia e vendas para fazer sua empresa faturar mais.</span>
           </p>
         </div>
 
         {/* Social proof — inline, before form */}
-        <div className="mt-5 animate-fade-up">
+        <div className="mt-4 animate-fade-up">
           <InlineLogos />
         </div>
+
 
 
         {/* Two-column layout: form first on mobile, dashboard on desktop */}
@@ -151,56 +154,57 @@ function ReferenceCards() {
     videoSrc?: string;
   }> = [
     {
-      tag: "Tráfego",
-      title: "Campanha Black",
-      metric: "ROAS",
-      value: "6.2x",
-      icon: Target,
+      tag: "Audiovisual",
+      title: "Pello Menos",
+      metric: "Views",
+      value: "2.4M",
+      icon: Video,
       hue: "from-fuchsia-500/50 via-purple-600/40 to-indigo-700/50",
-      kpi: "1.842 leads",
+      kpi: "+312% reach",
       handle: "@pellomenos",
     },
     {
       tag: "Audiovisual",
-      title: "Criativo UGC",
+      title: "Rubi Laser",
       metric: "CTR",
       value: "4.8%",
       icon: Video,
       hue: "from-pink-500/50 via-rose-500/40 to-orange-500/50",
-      kpi: "+312% views",
+      kpi: "+186 leads",
       handle: "@rubilaser",
     },
     {
-      tag: "CRM + IA",
-      title: "Qualificação",
-      metric: "Conv.",
-      value: "38%",
-      icon: Bot,
+      tag: "Audiovisual",
+      title: "Big Man",
+      metric: "Engaj.",
+      value: "12.6%",
+      icon: Video,
       hue: "from-violet-500/50 via-blue-500/40 to-cyan-500/50",
-      kpi: "86 reuniões",
+      kpi: "+48k seguidores",
       handle: "@bigman",
     },
     {
-      tag: "Performance",
-      title: "Dashboard",
-      metric: "Pipeline",
-      value: "R$1.2M",
-      icon: BarChart3,
+      tag: "Audiovisual",
+      title: "Óticas Carol",
+      metric: "Views",
+      value: "1.1M",
+      icon: Video,
       hue: "from-emerald-500/50 via-teal-500/40 to-violet-500/50",
-      kpi: "+62% MoM",
+      kpi: "+62% vendas",
       handle: "@oticascarol",
     },
     {
-      tag: "Branding",
-      title: "Reposicionamento",
-      metric: "Awareness",
-      value: "+184%",
-      icon: Sparkles,
+      tag: "Audiovisual",
+      title: "Club Liss",
+      metric: "Alcance",
+      value: "12M",
+      icon: Video,
       hue: "from-amber-500/50 via-orange-500/40 to-rose-500/50",
-      kpi: "12M alcance",
+      kpi: "+184% awareness",
       handle: "@clubliss",
     },
   ];
+
   const loop = [...cards, ...cards];
   return (
     <div className="relative -mx-4 sm:-mx-5 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
@@ -263,7 +267,7 @@ function ReferenceCards() {
 
 /* ---------------- INLINE LOGOS (social proof) ---------------- */
 function InlineLogos() {
-  const clients = ["Pello Menos", "Big Man", "Óticas Carol", "Club Liss"];
+  const clients = ["Pello Menos", "Big Man", "Óticas Carol"];
   return (
     <div className="text-center">
       <p className="text-[10px] sm:text-xs uppercase tracking-[0.22em] gradient-text font-semibold">
@@ -275,6 +279,11 @@ function InlineLogos() {
             {c}
           </span>
         ))}
+        <img
+          src={clublissLogo.url}
+          alt="Club Liss"
+          className="h-7 sm:h-8 w-auto object-contain opacity-90"
+        />
       </div>
     </div>
   );
