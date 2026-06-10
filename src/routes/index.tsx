@@ -79,7 +79,7 @@ function TopBar() {
 /* ---------------- HERO ---------------- */
 function Hero() {
   return (
-    <section id="top" className="relative pt-12 pb-10 md:pt-32 md:pb-20">
+    <section id="top" className="relative pt-4 pb-10 md:pt-32 md:pb-20">
       {/* Ambient glows */}
       <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-[600px] w-[900px] rounded-full opacity-60 blur-3xl"
            style={{ background: "radial-gradient(closest-side, oklch(0.7 0.22 295 / 0.45), transparent)" }} />
@@ -93,23 +93,25 @@ function Hero() {
         </div>
 
         {/* Headline */}
-        <div className="mt-5 sm:mt-10 text-center lg:text-left animate-fade-up max-w-3xl mx-auto lg:mx-0">
-          <h1 className="text-[1.55rem] leading-[1.12] sm:text-5xl lg:text-6xl font-bold tracking-tight">
+        <div className="mt-3 sm:mt-10 text-center lg:text-left animate-fade-up max-w-3xl mx-auto lg:mx-0">
+          <h1 className="text-[1.45rem] leading-[1.12] sm:text-5xl lg:text-6xl font-bold tracking-tight">
             Transforme sua empresa em uma{" "}
             <span className="gradient-text">máquina</span> de gerar{" "}
             <span className="gradient-text">oportunidades</span>,{" "}
             <span className="gradient-text">vendas</span> e{" "}
             <span className="gradient-text">posicionamento</span>.
           </h1>
-          <p className="mt-2.5 sm:mt-5 text-[13px] sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
-            A Genesis atua como o departamento de marketing da sua empresa, conectando estratégia, tráfego pago, audiovisual, marca, tecnologia e vendas para fazer sua empresa faturar mais.
+          <p className="mt-2 sm:mt-5 text-[11.5px] sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-snug whitespace-nowrap sm:whitespace-normal overflow-hidden text-ellipsis sm:overflow-visible">
+            <span className="sm:hidden">Marketing, vendas e tecnologia em um só lugar.</span>
+            <span className="hidden sm:inline">A Genesis atua como o departamento de marketing da sua empresa, conectando estratégia, tráfego pago, audiovisual, marca, tecnologia e vendas para fazer sua empresa faturar mais.</span>
           </p>
         </div>
 
         {/* Social proof — inline, before form */}
-        <div className="mt-5 animate-fade-up">
+        <div className="mt-4 animate-fade-up">
           <InlineLogos />
         </div>
+
 
 
         {/* Two-column layout: form first on mobile, dashboard on desktop */}
