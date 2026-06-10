@@ -455,7 +455,7 @@ function LogosStrip() {
                    style={{ background: "var(--gradient-brand-soft)", border: "1px solid oklch(1 0 0 / 0.1)" }}>
                 {c.split(" ").map(w => w[0]).slice(0, 2).join("")}
               </div>
-              <span className="font-display text-lg font-semibold tracking-tight text-foreground/85">{c}</span>
+              <span className="font-display text-sm md:text-base font-semibold tracking-tight text-foreground/85">{c}</span>
             </div>
           ))}
         </div>
@@ -480,7 +480,7 @@ function PainSection() {
         title={<>Sua empresa tem potencial, mas o marketing ainda <span className="gradient-text">não acompanha esse crescimento?</span></>}
         sub="Muitas empresas têm bons produtos, bom atendimento e uma boa estrutura, mas continuam perdendo oportunidades porque a comunicação não transmite valor, os anúncios não geram leads qualificados e o comercial não tem previsibilidade."
       />
-      <p className="text-center text-muted-foreground max-w-2xl mx-auto mt-2">
+      <p className="text-center text-[13px] md:text-base text-muted-foreground max-w-2xl mx-auto mt-2 leading-relaxed">
         O problema nem sempre está no produto. Muitas vezes está em como a empresa se posiciona, se comunica e transforma interesse em venda. <span className="text-foreground">A Genesis Company entra para organizar esse processo.</span>
       </p>
       <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -489,8 +489,8 @@ function PainSection() {
             <div className="h-11 w-11 rounded-xl grid place-items-center" style={{ background: "var(--gradient-brand-soft)" }}>
               <p.icon className="h-5 w-5" />
             </div>
-            <h3 className="mt-4 font-semibold text-lg">{p.t}</h3>
-            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{p.d}</p>
+            <h3 className="mt-4 font-semibold text-base">{p.t}</h3>
+            <p className="mt-1.5 text-[13px] text-muted-foreground leading-relaxed">{p.d}</p>
           </div>
         ))}
       </div>
@@ -519,10 +519,10 @@ function PositioningSection() {
             title={<>Mais do que uma agência. Um <span className="gradient-text">departamento de marketing</span> dentro da sua empresa.</>}
             sub="Nós mergulhamos na realidade do seu negócio para construir uma estratégia que conecta marca, conteúdo, tráfego, tecnologia e vendas."
           />
-          <p className="text-muted-foreground mt-2">
+          <p className="text-[13px] md:text-base text-muted-foreground mt-2 leading-relaxed">
             Enquanto você foca na gestão da empresa, a Genesis Company estrutura o marketing para gerar clareza, posicionamento e oportunidades comerciais todos os meses.
           </p>
-          <a href="#diagnostico" className="btn-primary mt-7">
+          <a href="#diagnostico" className="btn-primary mt-6 text-sm">
             Quero esse departamento na minha empresa <ArrowRight className="h-4 w-4" />
           </a>
         </div>
@@ -636,8 +636,8 @@ function ServicesSection() {
                 </div>
                 <span className="chip">{s.tag}</span>
               </div>
-              <h3 className="mt-5 font-semibold text-lg">{s.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+              <h3 className="mt-5 font-semibold text-base">{s.title}</h3>
+              <p className="mt-1.5 text-[13px] text-muted-foreground leading-relaxed">{s.desc}</p>
             </div>
           </article>
         ))}
@@ -674,10 +674,10 @@ function BeforeAfterSection() {
         {/* Before */}
         <div className="glass rounded-3xl p-7 opacity-90">
           <span className="chip">Antes da Genesis</span>
-          <h3 className="mt-4 text-2xl font-bold text-muted-foreground">Marketing improvisado</h3>
+          <h3 className="mt-4 text-lg font-bold text-muted-foreground">Marketing improvisado</h3>
           <ul className="mt-5 space-y-3">
             {before.map((b) => (
-              <li key={b} className="flex items-start gap-3 text-sm text-muted-foreground">
+              <li key={b} className="flex items-start gap-3 text-[13px] text-muted-foreground">
                 <XCircle className="h-5 w-5 shrink-0 text-destructive/70 mt-0.5" />
                 <span>{b}</span>
               </li>
@@ -693,10 +693,10 @@ function BeforeAfterSection() {
             <span className="chip" style={{ background: "var(--gradient-brand)", color: "var(--background)", border: "none" }}>
               <Rocket className="h-3.5 w-3.5" /> Depois da Genesis
             </span>
-            <h3 className="mt-4 text-2xl font-bold">Crescimento previsível</h3>
+            <h3 className="mt-4 text-lg font-bold">Crescimento previsível</h3>
             <ul className="mt-5 space-y-3">
               {after.map((a) => (
-                <li key={a} className="flex items-start gap-3 text-sm">
+                <li key={a} className="flex items-start gap-3 text-[13px]">
                   <CheckCircle2 className="h-5 w-5 shrink-0 text-success mt-0.5" />
                   <span className="text-foreground">{a}</span>
                 </li>
@@ -731,7 +731,7 @@ function ForWhoSection() {
                  style={{ background: "var(--gradient-brand)", color: "var(--background)" }}>
               {String(idx + 1).padStart(2, "0")}
             </div>
-            <p className="text-sm leading-relaxed text-foreground/90">{i}</p>
+            <p className="text-[13px] leading-relaxed text-foreground/90">{i}</p>
           </div>
         ))}
       </div>
@@ -766,8 +766,8 @@ function ProcessSection() {
                 </div>
                 <s.icon className="h-6 w-6 text-muted-foreground" />
               </div>
-              <h3 className="mt-5 text-xl font-bold">{s.t}</h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.d}</p>
+              <h3 className="mt-5 text-base font-bold">{s.t}</h3>
+              <p className="mt-1.5 text-[13px] text-muted-foreground leading-relaxed">{s.d}</p>
             </div>
           ))}
         </div>
@@ -789,22 +789,22 @@ function FinalCTA() {
         <div className="relative grid lg:grid-cols-[1.2fr_1fr] gap-10 items-center">
           <div>
             <span className="chip"><Shield className="h-3.5 w-3.5" /> Vagas limitadas por mês</span>
-            <h2 className="mt-4 text-3xl md:text-5xl font-bold leading-tight">
+            <h2 className="mt-3 text-[1.55rem] md:text-4xl font-bold leading-[1.12]">
               Pronto para transformar o marketing da sua empresa em <span className="gradient-text">crescimento?</span>
             </h2>
-            <p className="mt-5 text-muted-foreground text-lg max-w-xl">
+            <p className="mt-3 text-[13px] md:text-base text-muted-foreground max-w-xl leading-relaxed">
               A Genesis Company pode ser o departamento de marketing que conecta sua marca, suas campanhas e seu comercial em uma estratégia feita para gerar resultado.
             </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a href="#diagnostico" className="btn-primary">
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a href="#diagnostico" className="btn-primary text-sm">
                 Falar com a Genesis Company <ArrowRight className="h-4 w-4" />
               </a>
-              <a href="#servicos" className="btn-ghost">Ver serviços novamente</a>
+              <a href="#servicos" className="btn-ghost text-sm">Ver serviços novamente</a>
             </div>
           </div>
           <div className="glass rounded-2xl p-6">
-            <h3 className="font-semibold text-lg">Próximos passos</h3>
-            <ol className="mt-4 space-y-3 text-sm">
+            <h3 className="font-semibold text-base">Próximos passos</h3>
+            <ol className="mt-4 space-y-3 text-[13px]">
               {["Você preenche o diagnóstico", "Nossa equipe analisa o momento da sua empresa", "Apresentamos uma estratégia comercial sob medida"].map((t, i) => (
                 <li key={t} className="flex items-start gap-3">
                   <span className="h-6 w-6 rounded-full grid place-items-center text-xs font-bold shrink-0"
@@ -854,8 +854,8 @@ function Heading({
   return (
     <div className={`${a} max-w-3xl`}>
       {chip && <span className="chip">{chip}</span>}
-      <h2 className="mt-4 text-3xl md:text-5xl font-bold leading-[1.1] tracking-tight">{title}</h2>
-      {sub && <p className={`mt-5 text-lg text-muted-foreground ${align === "center" ? "max-w-2xl mx-auto" : ""}`}>{sub}</p>}
+      <h2 className="mt-3 text-[1.55rem] md:text-4xl font-bold leading-[1.12] tracking-tight">{title}</h2>
+      {sub && <p className={`mt-3 text-[13px] md:text-base text-muted-foreground leading-relaxed ${align === "center" ? "max-w-2xl mx-auto" : ""}`}>{sub}</p>}
     </div>
   );
 }
