@@ -267,7 +267,7 @@ function ReferenceCards() {
 
 /* ---------------- INLINE LOGOS (social proof) ---------------- */
 function InlineLogos() {
-  const clients = ["Pello Menos", "Big Man", "Óticas Carol", "Club Liss"];
+  const clients = ["Pello Menos", "Big Man", "Óticas Carol"];
   return (
     <div className="text-center">
       <p className="text-[10px] sm:text-xs uppercase tracking-[0.22em] gradient-text font-semibold">
@@ -279,6 +279,11 @@ function InlineLogos() {
             {c}
           </span>
         ))}
+        <img
+          src={clublissLogo.url}
+          alt="Club Liss"
+          className="h-7 sm:h-8 w-auto object-contain opacity-90"
+        />
       </div>
     </div>
   );
