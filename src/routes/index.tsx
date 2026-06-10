@@ -49,7 +49,6 @@ function LandingPage() {
   return (
     <div className="min-h-screen text-foreground overflow-x-hidden">
       <TopBar />
-      <Nav />
       <Hero />
       <LogosStrip />
       <PainSection />
