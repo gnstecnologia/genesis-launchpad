@@ -368,16 +368,10 @@ function LeadForm() {
     setSent(true);
   }
   return (
-    <div className="glass-strong rounded-3xl p-6 md:p-7 relative overflow-hidden">
+    <div className="glass-strong rounded-2xl p-4 md:p-5 relative overflow-hidden">
       <div className="absolute -top-20 -right-20 h-48 w-48 rounded-full blur-3xl opacity-50"
            style={{ background: "var(--gradient-brand)" }} />
       <div className="relative">
-        <div className="flex items-center gap-2 mb-3">
-        </div>
-        <h3 className="text-xl md:text-2xl font-bold leading-tight">
-        </h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-        </p>
 
         {sent ? (
           <div className="mt-6 rounded-2xl p-5 text-center" style={{ background: "var(--gradient-brand-soft)" }}>
@@ -425,8 +419,8 @@ function LeadForm() {
             <button type="submit" className="btn-primary mt-1 w-full !py-3.5">
               Quero receber meu diagnóstico <ArrowRight className="h-4 w-4" />
             </button>
-            <p className="text-xs text-muted-foreground flex items-center gap-2 justify-center mt-1">
-              <Lock className="h-3 w-3" /> Seus dados estão seguros. Sem spam. Atendimento consultivo.
+            <p className="text-[10px] text-muted-foreground flex items-center gap-1.5 justify-center mt-0.5">
+              <Lock className="h-2.5 w-2.5" /> Seus dados estão seguros. Sem spam.
             </p>
           </form>
 
@@ -443,7 +437,7 @@ function Field({ name, placeholder, type = "text" }: { name: string; placeholder
       type={type}
       required
       placeholder={placeholder}
-      className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/30 transition"
+      className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2.5 text-[13px] placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/30 transition"
     />
   );
 }
