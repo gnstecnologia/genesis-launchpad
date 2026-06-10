@@ -413,7 +413,7 @@ function DashboardComposition() {
 }
 
 // Cole aqui a URL do seu Google Apps Script após deployar
-const SHEETS_ENDPOINT = "https://script.google.com/a/macros/companygenesis.com.br/s/AKfycbzsi3ptbQUBGXwULTfNdru30BLRUiGD_DTSz-1UkU_y6NrT0obKNIIFM4uAN8Sg1VHx/exec";
+const SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbzsi3ptbQUBGXwULTfNdru30BLRUiGD_DTSz-1UkU_y6NrT0obKNIIFM4uAN8Sg1VHx/exec";
 
 /* ---------------- FORM ---------------- */
 function LeadForm() {
