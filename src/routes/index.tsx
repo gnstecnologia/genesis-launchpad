@@ -194,40 +194,52 @@ function ReferenceCards() {
   const loop = [...cards, ...cards];
   return (
     <div className="relative -mx-4 sm:-mx-5 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
-      <div className="flex gap-3 w-max animate-marquee py-1 px-2">
+      <div className="flex gap-2.5 w-max animate-marquee py-1 px-2">
         {loop.map((c, i) => (
           <div
             key={i}
-            className="shrink-0 w-[42vw] max-w-[170px] sm:w-[180px] aspect-[9/14] relative rounded-2xl overflow-hidden glass-strong"
+            className="shrink-0 w-[31vw] max-w-[128px] sm:w-[140px] aspect-[9/15] relative rounded-xl overflow-hidden glass-strong"
           >
-            <div className={`absolute inset-0 bg-gradient-to-br ${c.hue}`} />
-            {/* Simulated video noise/grain */}
-            <div className="absolute inset-0 opacity-30 mix-blend-overlay"
-                 style={{ backgroundImage: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.3), transparent 40%), radial-gradient(circle at 70% 80%, rgba(255,255,255,0.2), transparent 50%)" }} />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+            {c.videoSrc ? (
+              <video
+                src={c.videoSrc}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : (
+              <>
+                <div className={`absolute inset-0 bg-gradient-to-br ${c.hue}`} />
+                <div className="absolute inset-0 opacity-30 mix-blend-overlay"
+                     style={{ backgroundImage: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.3), transparent 40%), radial-gradient(circle at 70% 80%, rgba(255,255,255,0.2), transparent 50%)" }} />
+              </>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
             {/* Top tag */}
-            <div className="absolute top-2 left-2">
-              <span className="inline-flex items-center gap-1 rounded-full bg-white/95 text-black text-[10px] font-semibold px-2 py-0.5">
-                <c.icon className="h-2.5 w-2.5" /> {c.tag}
+            <div className="absolute top-1.5 left-1.5">
+              <span className="inline-flex items-center gap-1 rounded-full bg-white/95 text-black text-[9px] font-semibold px-1.5 py-0.5">
+                <c.icon className="h-2 w-2" /> {c.tag}
               </span>
             </div>
-            {/* Play indicator */}
-            <div className="absolute top-2 right-2 h-5 w-5 rounded-full bg-black/40 backdrop-blur flex items-center justify-center">
-              <span className="block h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse-glow" />
+            {/* Live indicator */}
+            <div className="absolute top-1.5 right-1.5 h-4 w-4 rounded-full bg-black/40 backdrop-blur flex items-center justify-center">
+              <span className="block h-1 w-1 rounded-full bg-red-500 animate-pulse-glow" />
             </div>
             {/* Handle */}
-            <div className="absolute bottom-[58px] left-2.5 text-white/85 text-[10px] font-medium">
+            <div className="absolute bottom-[42px] left-2 text-white/85 text-[9px] font-medium">
               {c.handle}
             </div>
             {/* Bottom info */}
-            <div className="absolute bottom-0 inset-x-0 p-2.5 text-white">
-              <div className="text-[11px] font-semibold leading-tight">{c.title}</div>
-              <div className="mt-1 flex items-end justify-between">
+            <div className="absolute bottom-0 inset-x-0 p-2 text-white">
+              <div className="text-[10px] font-semibold leading-tight">{c.title}</div>
+              <div className="mt-0.5 flex items-end justify-between">
                 <div>
-                  <div className="text-[9px] uppercase tracking-wider opacity-70">{c.metric}</div>
-                  <div className="text-base font-bold gradient-text leading-none">{c.value}</div>
+                  <div className="text-[8px] uppercase tracking-wider opacity-70">{c.metric}</div>
+                  <div className="text-sm font-bold gradient-text leading-none">{c.value}</div>
                 </div>
-                <div className="text-[9px] text-emerald-300 font-semibold">{c.kpi}</div>
+                <div className="text-[8px] text-emerald-300 font-semibold">{c.kpi}</div>
               </div>
             </div>
           </div>
@@ -236,6 +248,7 @@ function ReferenceCards() {
     </div>
   );
 }
+
 
 
 /* ---------------- INLINE LOGOS (social proof) ---------------- */
