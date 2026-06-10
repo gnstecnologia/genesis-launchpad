@@ -48,6 +48,7 @@ export const Route = createFileRoute("/")({
 function LandingPage() {
   return (
     <div className="min-h-screen text-foreground overflow-x-hidden">
+      <TopBar />
       <Nav />
       <Hero />
       <LogosStrip />
@@ -63,25 +64,38 @@ function LandingPage() {
   );
 }
 
+/* ---------------- TOP BAR ---------------- */
+function TopBar() {
+  return (
+    <div
+      className="fixed top-0 inset-x-0 z-[60] text-center text-[11px] sm:text-xs font-medium py-2 px-4 text-white"
+      style={{ background: "var(--gradient-brand)" }}
+    >
+      Solução estratégica para empresas que faturam acima de <strong>R$ 50 mil</strong> por mês
+    </div>
+  );
+}
+
 /* ---------------- NAV ---------------- */
 function Nav() {
   return (
-    <header className="fixed top-0 inset-x-0 z-50 flex justify-center pt-4 px-4">
-      <div className="glass-strong w-full max-w-6xl rounded-full px-5 py-3 flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg grid place-items-center" style={{ background: "var(--gradient-brand)" }}>
-            <Sparkles className="h-4 w-4 text-background" />
+    <header className="fixed top-8 inset-x-0 z-50 flex justify-center px-3">
+      <div className="glass-strong w-full max-w-6xl rounded-full pl-4 pr-2 py-2 flex items-center justify-between">
+        <a href="#top" className="flex items-center gap-2 min-w-0">
+          <div className="h-7 w-7 rounded-lg grid place-items-center shrink-0" style={{ background: "var(--gradient-brand)" }}>
+            <Sparkles className="h-3.5 w-3.5 text-background" />
           </div>
-          <span className="font-display font-bold tracking-tight">Genesis<span className="gradient-text">.</span></span>
+          <span className="font-display font-bold tracking-tight text-sm sm:text-base truncate">
+            Genesis<span className="gradient-text">.</span>
+          </span>
         </a>
         <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
           <a href="#servicos" className="hover:text-foreground transition">Serviços</a>
           <a href="#processo" className="hover:text-foreground transition">Processo</a>
           <a href="#para-quem" className="hover:text-foreground transition">Para quem</a>
-          <a href="#diagnostico" className="hover:text-foreground transition">Diagnóstico</a>
         </nav>
-        <a href="#diagnostico" className="btn-primary !py-2 !px-4 text-sm">
-          Diagnóstico grátis <ArrowRight className="h-4 w-4" />
+        <a href="#diagnostico" className="btn-primary !py-1.5 !px-3 text-xs sm:!px-4 sm:text-sm shrink-0">
+          Diagnóstico grátis <ArrowRight className="h-3.5 w-3.5" />
         </a>
       </div>
     </header>
@@ -91,60 +105,57 @@ function Nav() {
 /* ---------------- HERO ---------------- */
 function Hero() {
   return (
-    <section id="top" className="relative pt-32 pb-20 md:pt-40 md:pb-24 section-pad">
+    <section id="top" className="relative pt-24 pb-12 md:pt-32 md:pb-20">
       {/* Ambient glows */}
       <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-[600px] w-[900px] rounded-full opacity-60 blur-3xl"
            style={{ background: "radial-gradient(closest-side, oklch(0.7 0.22 295 / 0.45), transparent)" }} />
       <div className="pointer-events-none absolute top-40 right-0 h-[400px] w-[500px] rounded-full opacity-40 blur-3xl"
            style={{ background: "radial-gradient(closest-side, oklch(0.78 0.18 60 / 0.4), transparent)" }} />
 
-      <div className="relative mx-auto max-w-7xl px-5 grid lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-14 items-start">
-        {/* Left copy */}
-        <div className="animate-fade-up">
-          <span className="chip">
-            <span className="h-2 w-2 rounded-full bg-success animate-pulse-glow" />
-            Departamento de marketing completo
-          </span>
-          <h1 className="mt-5 text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05] tracking-tight">
-            Transforme o marketing da sua empresa em uma <span className="gradient-text">máquina de gerar oportunidades</span>, vendas e posicionamento.
-          </h1>
-          <p className="mt-6 text-lg text-muted-foreground max-w-xl leading-relaxed">
-            A Genesis Company atua como o <strong className="text-foreground">departamento de marketing da sua empresa</strong>, conectando estratégia, tráfego pago, audiovisual, gestão de marca, tecnologia e vendas para atrair clientes mais qualificados e acelerar o crescimento do seu negócio.
-          </p>
-          <p className="mt-4 text-base text-muted-foreground/90 max-w-xl">
-            Não é sobre postar por postar. É sobre construir uma presença forte, gerar demanda e transformar atenção em faturamento.
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a href="#diagnostico" className="btn-primary">
-              Quero receber um diagnóstico gratuito <ArrowRight className="h-4 w-4" />
-            </a>
-            <a href="#servicos" className="btn-ghost">Ver o que entregamos</a>
-          </div>
-          <p className="mt-4 text-sm text-muted-foreground max-w-md">
-            Fale com a nossa equipe e entenda como podemos estruturar uma estratégia para o momento atual da sua empresa.
-          </p>
-
-          {/* Trust mini-stats */}
-          <div className="mt-10 grid grid-cols-3 gap-4 max-w-lg">
-            {[
-              { v: "+10M", l: "investidos em mídia" },
-              { v: "+120", l: "marcas atendidas" },
-              { v: "7", l: "anos de mercado" },
-            ].map((s) => (
-              <div key={s.l} className="glass rounded-2xl p-4">
-                <div className="text-2xl font-bold gradient-text">{s.v}</div>
-                <div className="text-xs text-muted-foreground mt-1 leading-snug">{s.l}</div>
-              </div>
-            ))}
-          </div>
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-5">
+        {/* MOBILE-FIRST: Visual references first */}
+        <div className="mt-2 animate-fade-up">
+          <ReferenceCards />
         </div>
 
-        {/* Right: dashboard composition + form */}
-        <div className="relative">
-          <DashboardComposition />
-          <div id="diagnostico" className="mt-8">
+        {/* Headline */}
+        <div className="mt-7 sm:mt-10 text-center lg:text-left animate-fade-up max-w-3xl mx-auto lg:mx-0">
+          <h1 className="text-[2rem] leading-[1.08] sm:text-5xl lg:text-6xl font-bold tracking-tight">
+            Transforme o marketing da sua empresa em uma{" "}
+            <span className="gradient-text">máquina</span> de gerar{" "}
+            <span className="gradient-text">oportunidades</span>,{" "}
+            <span className="gradient-text">vendas</span> e{" "}
+            <span className="gradient-text">posicionamento</span>.
+          </h1>
+          <p className="mt-4 sm:mt-5 text-[15px] sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
+            A Genesis Company atua como o <strong className="text-foreground">departamento de marketing</strong> da sua empresa — conectando estratégia, tráfego pago, audiovisual, marca, tecnologia e vendas para atrair clientes mais qualificados e acelerar o crescimento.
+          </p>
+        </div>
+
+        {/* Social proof — inline, before form */}
+        <div className="mt-8 animate-fade-up">
+          <InlineLogos />
+        </div>
+
+        {/* Two-column layout: form first on mobile, dashboard on desktop */}
+        <div className="mt-8 grid lg:grid-cols-[1fr_1.05fr] gap-10 items-start">
+          <div id="diagnostico" className="order-1 lg:order-2">
             <LeadForm />
+          </div>
+          <div className="order-2 lg:order-1 hidden lg:block">
+            <DashboardComposition />
+            <div className="mt-8 grid grid-cols-3 gap-4">
+              {[
+                { v: "+10M", l: "investidos em mídia" },
+                { v: "+120", l: "marcas atendidas" },
+                { v: "7", l: "anos de mercado" },
+              ].map((s) => (
+                <div key={s.l} className="glass rounded-2xl p-4">
+                  <div className="text-2xl font-bold gradient-text">{s.v}</div>
+                  <div className="text-xs text-muted-foreground mt-1 leading-snug">{s.l}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -152,9 +163,109 @@ function Hero() {
   );
 }
 
+/* ---------------- REFERENCE CARDS (Turbo-style creator strip) ---------------- */
+function ReferenceCards() {
+  const cards = [
+    {
+      tag: "Tráfego",
+      title: "Campanha Black",
+      metric: "ROAS",
+      value: "6.2x",
+      icon: Target,
+      hue: "from-fuchsia-500/40 via-purple-600/30 to-indigo-600/40",
+      kpi: "1.842 leads",
+    },
+    {
+      tag: "Audiovisual",
+      title: "Criativo UGC",
+      metric: "CTR",
+      value: "4.8%",
+      icon: Video,
+      hue: "from-pink-500/40 via-rose-500/30 to-orange-500/40",
+      kpi: "+312% views",
+    },
+    {
+      tag: "CRM + IA",
+      title: "Qualificação",
+      metric: "Conv.",
+      value: "38%",
+      icon: Bot,
+      hue: "from-violet-500/40 via-blue-500/30 to-cyan-500/40",
+      kpi: "86 reuniões",
+    },
+    {
+      tag: "Performance",
+      title: "Dashboard",
+      metric: "Pipeline",
+      value: "R$1.2M",
+      icon: BarChart3,
+      hue: "from-emerald-500/40 via-teal-500/30 to-violet-500/40",
+      kpi: "+62% MoM",
+    },
+  ];
+  return (
+    <div className="relative -mx-4 sm:-mx-5">
+      <div className="flex gap-3 overflow-x-auto px-4 sm:px-5 pb-3 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {cards.map((c, i) => (
+          <div
+            key={c.title}
+            className="snap-start shrink-0 w-[44vw] max-w-[180px] sm:w-[200px] aspect-[3/4] relative rounded-2xl overflow-hidden glass-strong"
+            style={{ transform: `rotate(${i % 2 === 0 ? -1.5 : 1.5}deg)` }}
+          >
+            <div className={`absolute inset-0 bg-gradient-to-br ${c.hue}`} />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            {/* Tag */}
+            <div className="absolute top-2.5 left-2.5">
+              <span className="inline-flex items-center gap-1 rounded-full bg-white/90 text-black text-[10px] font-semibold px-2 py-0.5">
+                <c.icon className="h-2.5 w-2.5" /> {c.tag}
+              </span>
+            </div>
+            {/* Decorative chart */}
+            <div className="absolute inset-x-3 top-1/3 opacity-70">
+              <svg viewBox="0 0 100 30" className="w-full h-10">
+                <path d="M0,25 Q25,15 50,18 T100,5" fill="none" stroke="white" strokeWidth="1.5" opacity="0.6" />
+              </svg>
+            </div>
+            {/* Bottom info */}
+            <div className="absolute bottom-0 inset-x-0 p-2.5 text-white">
+              <div className="text-[11px] font-semibold leading-tight">{c.title}</div>
+              <div className="mt-1 flex items-end justify-between">
+                <div>
+                  <div className="text-[9px] uppercase tracking-wider opacity-70">{c.metric}</div>
+                  <div className="text-lg font-bold gradient-text leading-none">{c.value}</div>
+                </div>
+                <div className="text-[9px] text-emerald-300 font-semibold">{c.kpi}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ---------------- INLINE LOGOS (social proof) ---------------- */
+function InlineLogos() {
+  const clients = ["Pello Menos", "Rubi Laser", "Big Man", "Óticas Carol", "Club Liss", "EH Medical"];
+  return (
+    <div className="text-center">
+      <p className="text-[10px] sm:text-xs uppercase tracking-[0.22em] gradient-text font-semibold">
+        Empresas que confiam na Genesis Company
+      </p>
+      <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 opacity-80">
+        {clients.map((c) => (
+          <span key={c} className="font-display text-sm sm:text-base font-semibold tracking-tight text-foreground/75">
+            {c}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function DashboardComposition() {
   return (
-    <div className="relative h-[420px] hidden md:block">
+    <div className="relative h-[420px]">
       {/* Big metric card */}
       <div className="glass-strong absolute top-0 left-0 w-[62%] rounded-2xl p-5 animate-float-slow">
         <div className="flex items-center justify-between text-xs text-muted-foreground">
@@ -224,7 +335,7 @@ function DashboardComposition() {
         </div>
       </div>
 
-      {/* Floating badges */}
+      {/* Floating badge */}
       <div className="glass absolute top-32 left-4 rounded-full px-3 py-1.5 text-xs flex items-center gap-1.5 animate-float" style={{ animationDelay: "0.8s" }}>
         <Video className="h-3 w-3" /> Audiovisual ativo
       </div>
@@ -262,47 +373,60 @@ function LeadForm() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="mt-5 grid gap-3">
-            <div className="grid sm:grid-cols-2 gap-3">
-              <Field name="nome" placeholder="Seu nome" />
-              <Field name="whatsapp" placeholder="WhatsApp" />
+            <Field name="nome" type="text" placeholder="Seu nome completo" />
+            <Field name="email" type="email" placeholder="Seu melhor e-mail" />
+            <div className="grid grid-cols-[64px_1fr] gap-2">
+              <div className="rounded-xl bg-white/5 border border-white/10 px-3 py-3 text-sm flex items-center justify-center text-muted-foreground">
+                +55
+              </div>
+              <Field name="whatsapp" type="tel" placeholder="(11) 99999-9999" />
             </div>
-            <Field name="empresa" placeholder="Nome da empresa" />
-            <div className="grid sm:grid-cols-2 gap-3">
-              <Field name="segmento" placeholder="Segmento" />
-              <Select name="faturamento" options={[
-                "Faturamento mensal",
-                "Até R$ 50 mil",
-                "R$ 50 mil – R$ 200 mil",
-                "R$ 200 mil – R$ 500 mil",
-                "R$ 500 mil – R$ 1 milhão",
-                "Acima de R$ 1 milhão",
-              ]} />
-            </div>
+            <Field name="empresa" type="text" placeholder="Nome da sua empresa" />
+            <Select name="faturamento" options={[
+              "Selecione seu faturamento mensal",
+              "Até R$ 50 mil",
+              "R$ 50 mil – R$ 200 mil",
+              "R$ 200 mil – R$ 500 mil",
+              "R$ 500 mil – R$ 1 milhão",
+              "Acima de R$ 1 milhão",
+            ]} />
+            <Select name="segmento" options={[
+              "Selecione o segmento da sua empresa",
+              "Saúde e estética",
+              "Serviços profissionais",
+              "E-commerce e varejo",
+              "Educação",
+              "Indústria",
+              "Tecnologia / SaaS",
+              "Outro",
+            ]} />
             <Select name="desafio" options={[
-              "Maior desafio atual",
+              "Qual seu maior desafio hoje?",
               "Gerar mais leads qualificados",
               "Estruturar marketing e marca",
               "Aumentar vendas e previsibilidade",
               "Profissionalizar conteúdo e audiovisual",
               "Implementar CRM, IA e automação",
             ]} />
-            <button type="submit" className="btn-primary mt-2 w-full !py-3.5">
+            <button type="submit" className="btn-primary mt-1 w-full !py-3.5">
               Quero receber meu diagnóstico <ArrowRight className="h-4 w-4" />
             </button>
             <p className="text-xs text-muted-foreground flex items-center gap-2 justify-center mt-1">
               <Lock className="h-3 w-3" /> Seus dados estão seguros. Sem spam. Atendimento consultivo.
             </p>
           </form>
+
         )}
       </div>
     </div>
   );
 }
 
-function Field({ name, placeholder }: { name: string; placeholder: string }) {
+function Field({ name, placeholder, type = "text" }: { name: string; placeholder: string; type?: string }) {
   return (
     <input
       name={name}
+      type={type}
       required
       placeholder={placeholder}
       className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/30 transition"
