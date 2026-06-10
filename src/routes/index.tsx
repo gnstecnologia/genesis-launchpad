@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import clublissLogo from "@/assets/clubliss.png.asset.json";
 import { useState, type FormEvent } from "react";
 import {
@@ -24,6 +24,8 @@ import {
   MessageSquare,
   Lock,
   PhoneCall,
+  Heart,
+  ChevronDown,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -54,11 +56,15 @@ function LandingPage() {
       <LogosStrip />
       <PainSection />
       <PositioningSection />
+      <VideoShowcaseSection />
       <ServicesSection />
       <BeforeAfterSection />
       <ForWhoSection />
       <ProcessSection />
       <FinalCTA />
+      <AboutSection />
+      <FAQSection />
+      <WhatsAppCTASection />
       <Footer />
     </div>
   );
@@ -93,7 +99,7 @@ function Hero() {
         </div>
 
         {/* Headline */}
-        <div className="mt-3 sm:mt-10 text-center lg:text-left animate-fade-up max-w-3xl mx-auto lg:mx-0">
+        <div className="mt-3 sm:mt-10 text-center animate-fade-up max-w-3xl mx-auto">
           <h1 className="text-[1.45rem] leading-[1.12] sm:text-5xl lg:text-6xl font-bold tracking-tight">
             Transforme sua empresa em uma{" "}
             <span className="gradient-text">máquina</span> de gerar{" "}
@@ -101,8 +107,8 @@ function Hero() {
             <span className="gradient-text">vendas</span> e{" "}
             <span className="gradient-text">posicionamento</span>.
           </h1>
-          <p className="mt-2 sm:mt-5 text-[11.5px] sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-snug whitespace-nowrap sm:whitespace-normal overflow-hidden text-ellipsis sm:overflow-visible">
-            <span className="sm:hidden">Marketing, vendas e tecnologia em um só lugar.</span>
+          <p className="mt-2 sm:mt-5 text-[11.5px] sm:text-lg text-muted-foreground max-w-xl mx-auto leading-snug sm:whitespace-normal">
+            <span className="sm:hidden">A Genesis atua como o departamento de marketing da sua empresa, conectando estratégia, tráfego pago, audiovisual, gestão de marca, tecnologia e vendas para acelerar o crescimento do seu negócio.</span>
             <span className="hidden sm:inline">A Genesis atua como o departamento de marketing da sua empresa, conectando estratégia, tráfego pago, audiovisual, marca, tecnologia e vendas para fazer sua empresa faturar mais.</span>
           </p>
         </div>
@@ -154,54 +160,92 @@ function ReferenceCards() {
     videoSrc?: string;
   }> = [
     {
-      tag: "Audiovisual",
-      title: "Pello Menos",
-      metric: "Views",
-      value: "2.4M",
+      tag: "Tráfego Pago",
+      title: "André Venum Wine",
+      metric: "Crescimento",
+      value: "+1.000%",
       icon: Video,
       hue: "from-fuchsia-500/50 via-purple-600/40 to-indigo-700/50",
-      kpi: "+312% reach",
-      handle: "@pellomenos",
+      kpi: "criação de marca",
+      handle: "@andrevenum",
+      videoSrc: "/videos/video-1-André.mp4",
     },
     {
       tag: "Audiovisual",
-      title: "Rubi Laser",
-      metric: "CTR",
-      value: "4.8%",
-      icon: Video,
-      hue: "from-pink-500/50 via-rose-500/40 to-orange-500/50",
-      kpi: "+186 leads",
-      handle: "@rubilaser",
-    },
-    {
-      tag: "Audiovisual",
-      title: "Big Man",
-      metric: "Engaj.",
-      value: "12.6%",
-      icon: Video,
-      hue: "from-violet-500/50 via-blue-500/40 to-cyan-500/50",
-      kpi: "+48k seguidores",
-      handle: "@bigman",
-    },
-    {
-      tag: "Audiovisual",
-      title: "Óticas Carol",
+      title: "Venum Brasil",
       metric: "Views",
       value: "1.1M",
       icon: Video,
-      hue: "from-emerald-500/50 via-teal-500/40 to-violet-500/50",
-      kpi: "+62% vendas",
-      handle: "@oticascarol",
+      hue: "from-red-500/50 via-orange-500/40 to-yellow-500/50",
+      kpi: "+78% alcance",
+      handle: "@venumbrasil",
+      videoSrc: "/videos/video-2-Venum.mp4",
     },
     {
       tag: "Audiovisual",
-      title: "Club Liss",
-      metric: "Alcance",
-      value: "12M",
+      title: "Venum Brasil",
+      metric: "Views",
+      value: "760K",
       icon: Video,
-      hue: "from-amber-500/50 via-orange-500/40 to-rose-500/50",
-      kpi: "+184% awareness",
-      handle: "@clubliss",
+      hue: "from-orange-500/50 via-red-600/40 to-rose-700/50",
+      kpi: "+124% engajamento",
+      handle: "@venumbrasil",
+      videoSrc: "/videos/video-3-Venum.mp4",
+    },
+    {
+      tag: "Redes Sociais",
+      title: "Big Man Barbearia",
+      metric: "Assinaturas",
+      value: "+2.5k",
+      icon: Video,
+      hue: "from-violet-500/50 via-blue-500/40 to-cyan-500/50",
+      kpi: "+300% crescimento",
+      handle: "@bigmanbarbearia",
+      videoSrc: "/videos/video-4-Big-Man.mp4",
+    },
+    {
+      tag: "Tráfego Pago",
+      title: "Cocó King",
+      metric: "ROAS",
+      value: "10x",
+      icon: Video,
+      hue: "from-emerald-500/50 via-green-600/40 to-teal-700/50",
+      kpi: "+67% delivery",
+      handle: "@cocoking",
+      videoSrc: "/videos/video-9-Coco-King.mp4",
+    },
+    {
+      tag: "Audiovisual",
+      title: "Gauro Pizzas",
+      metric: "Crescimento",
+      value: "+400%",
+      icon: Video,
+      hue: "from-yellow-500/50 via-amber-500/40 to-orange-600/50",
+      kpi: "3 unidades abertas",
+      handle: "@gauropizzas",
+      videoSrc: "/videos/video-6-Gauro.mp4",
+    },
+    {
+      tag: "Redes Sociais",
+      title: "Big Woman Esmalteria",
+      metric: "Crescimento",
+      value: "+120%",
+      icon: Video,
+      hue: "from-pink-500/50 via-rose-500/40 to-fuchsia-600/50",
+      kpi: "+engajamento",
+      handle: "@bigwomanesmalteria",
+      videoSrc: "/videos/video-7-Big-Woman.mp4",
+    },
+    {
+      tag: "Tráfego Pago",
+      title: "Wanderlei Silva",
+      metric: "Alcance",
+      value: "2.1M",
+      icon: Video,
+      hue: "from-blue-500/50 via-indigo-500/40 to-violet-600/50",
+      kpi: "+194% engajamento",
+      handle: "@wanderleisilva",
+      videoSrc: "/videos/video-8-Wanderlei-Silva.mp4",
     },
   ];
 
@@ -241,18 +285,11 @@ function ReferenceCards() {
             <div className="absolute top-1.5 right-1.5 h-4 w-4 rounded-full bg-black/40 backdrop-blur flex items-center justify-center">
               <span className="block h-1 w-1 rounded-full bg-red-500 animate-pulse-glow" />
             </div>
-            {/* Handle */}
-            <div className="absolute bottom-[42px] left-2 text-white/85 text-[9px] font-medium">
-              {c.handle}
-            </div>
             {/* Bottom info */}
             <div className="absolute bottom-0 inset-x-0 p-2 text-white">
               <div className="text-[10px] font-semibold leading-tight">{c.title}</div>
               <div className="mt-0.5 flex items-end justify-between">
-                <div>
-                  <div className="text-[8px] uppercase tracking-wider opacity-70">{c.metric}</div>
-                  <div className="text-sm font-bold gradient-text leading-none">{c.value}</div>
-                </div>
+                <div className="text-sm font-bold gradient-text leading-none">{c.value}</div>
                 <div className="text-[8px] text-emerald-300 font-semibold">{c.kpi}</div>
               </div>
             </div>
@@ -267,23 +304,26 @@ function ReferenceCards() {
 
 /* ---------------- INLINE LOGOS (social proof) ---------------- */
 function InlineLogos() {
-  const clients = ["Pello Menos", "Big Man", "Óticas Carol"];
+  const logos = [
+    { src: "/logos/1.png", alt: "Gauro Pizzas" },
+    { src: "/logos/2.png", alt: "Club Liss" },
+    { src: "/logos/3.png", alt: "Pello Menos" },
+    { src: "/logos/4.png", alt: "Óticas Carol" },
+  ];
   return (
     <div className="text-center">
       <p className="text-[10px] sm:text-xs uppercase tracking-[0.22em] gradient-text font-semibold">
         EMPRESAS QUE CONFIAM NA GENESIS
       </p>
-      <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 opacity-80">
-        {clients.map((c) => (
-          <span key={c} className="font-display text-sm sm:text-base font-semibold tracking-tight text-foreground/75">
-            {c}
-          </span>
+      <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+        {logos.map((l) => (
+          <img
+            key={l.alt}
+            src={l.src}
+            alt={l.alt}
+            className="h-7 sm:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+          />
         ))}
-        <img
-          src={clublissLogo.url}
-          alt="Club Liss"
-          className="h-7 sm:h-8 w-auto object-contain opacity-90"
-        />
       </div>
     </div>
   );
@@ -369,27 +409,48 @@ function DashboardComposition() {
   );
 }
 
+// Cole aqui a URL do seu Google Apps Script após deployar
+const SHEETS_ENDPOINT = "https://script.google.com/a/macros/companygenesis.com.br/s/AKfycbwofAoHs-xBX8lTIsHpfVi0ttVDoorgMTIaR9X0peORydyUL7RTVDWBvi_xFuM89gSA/exec";
+
 /* ---------------- FORM ---------------- */
 function LeadForm() {
-  const [sent, setSent] = useState(false);
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSent(true);
+    setLoading(true);
+    const fd = new FormData(e.currentTarget);
+    const data = {
+      timestamp: new Date().toLocaleString("pt-BR"),
+      nome: fd.get("nome"),
+      email: fd.get("email"),
+      whatsapp: fd.get("whatsapp"),
+      empresa: fd.get("empresa"),
+      faturamento: fd.get("faturamento"),
+      segmento: fd.get("segmento"),
+      desafio: fd.get("desafio"),
+    };
+    try {
+      if (SHEETS_ENDPOINT) {
+        await fetch(SHEETS_ENDPOINT, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      }
+    } catch (_) { /* silent */ }
+    setLoading(false);
+    navigate({ to: "/obrigado" });
   }
+
   return (
     <div className="glass-strong rounded-2xl p-4 md:p-5 relative overflow-hidden">
       <div className="absolute -top-20 -right-20 h-48 w-48 rounded-full blur-3xl opacity-50"
            style={{ background: "var(--gradient-brand)" }} />
       <div className="relative">
-
-        {sent ? (
-          <div className="rounded-xl p-5 text-center" style={{ background: "var(--gradient-brand-soft)" }}>
-            <CheckCircle2 className="h-9 w-9 mx-auto text-success" />
-            <p className="mt-3 font-semibold text-sm">Recebemos seus dados!</p>
-            <p className="text-[12px] text-muted-foreground mt-1">Nossa equipe entrará em contato em até 1 dia útil.</p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="grid gap-2">
+        <form onSubmit={handleSubmit} className="grid gap-2">
             <Field name="nome" type="text" placeholder="Seu nome completo" />
             <Field name="email" type="email" placeholder="Seu melhor e-mail" />
             <div className="grid grid-cols-[54px_1fr] gap-2">
@@ -425,15 +486,13 @@ function LeadForm() {
               "Profissionalizar conteúdo e audiovisual",
               "Implementar CRM, IA e automação",
             ]} />
-            <button type="submit" className="btn-primary mt-1 w-full !text-[13px]">
-              Quero receber meu diagnóstico <ArrowRight className="h-3.5 w-3.5" />
+            <button type="submit" disabled={loading} className="btn-primary mt-1 w-full !text-[13px]">
+              {loading ? "Enviando..." : <>Quero receber meu diagnóstico <ArrowRight className="h-3.5 w-3.5" /></>}
             </button>
             <p className="text-[10px] text-muted-foreground flex items-center gap-1.5 justify-center mt-0.5">
               <Lock className="h-2.5 w-2.5" /> Seus dados estão seguros. Sem spam.
             </p>
           </form>
-
-        )}
       </div>
     </div>
   );
@@ -450,6 +509,7 @@ function Field({ name, placeholder, type = "text" }: { name: string; placeholder
     />
   );
 }
+
 function Select({ name, options }: { name: string; options: string[] }) {
   return (
     <select
@@ -466,7 +526,15 @@ function Select({ name, options }: { name: string; options: string[] }) {
 
 /* ---------------- LOGOS ---------------- */
 function LogosStrip() {
-  const clients = ["Pello Menos", "Big Man Barbearia", "Óticas Carol", "Club Liss"];
+  const clients = [
+    { name: "Gauro Pizzas", logo: "/logos/1.png" },
+    { name: "Club Liss", logo: "/logos/2.png" },
+    { name: "Pello Menos", logo: "/logos/3.png" },
+    { name: "Óticas Carol", logo: "/logos/4.png" },
+    { name: "Aditex", logo: "/logos/5.png" },
+    { name: "Venum Brasil", logo: "/logos/6.png" },
+    { name: "Big Man Barbearia", logo: "/logos/7.png" },
+  ];
   const loop = [...clients, ...clients];
   return (
     <section className="border-y border-white/5 py-10 bg-white/[0.02]">
@@ -476,12 +544,12 @@ function LogosStrip() {
       <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
         <div className="flex gap-14 w-max animate-marquee">
           {loop.map((c, i) => (
-            <div key={i} className="flex items-center gap-3 shrink-0">
-              <div className="h-9 w-9 rounded-lg grid place-items-center text-xs font-bold"
-                   style={{ background: "var(--gradient-brand-soft)", border: "1px solid oklch(1 0 0 / 0.1)" }}>
-                {c.split(" ").map(w => w[0]).slice(0, 2).join("")}
-              </div>
-              <span className="font-display text-sm md:text-base font-semibold tracking-tight text-foreground/85">{c}</span>
+            <div key={i} className="flex items-center shrink-0">
+              <img
+                src={c.logo}
+                alt={c.name}
+                className="h-10 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+              />
             </div>
           ))}
         </div>
@@ -520,6 +588,11 @@ function PainSection() {
           </div>
         ))}
       </div>
+      <div className="mt-10 flex justify-center">
+        <a href="#diagnostico" className="btn-primary text-sm">
+          Quero resolver esses problemas <ArrowRight className="h-4 w-4" />
+        </a>
+      </div>
     </section>
   );
 }
@@ -538,9 +611,9 @@ function PositioningSection() {
   return (
     <section className="section-pad mx-auto max-w-7xl px-5">
       <div className="grid lg:grid-cols-2 gap-12 items-center">
-        <div>
+        <div className="text-center lg:text-left">
           <Heading
-            align="left"
+            align="center"
             chip="Posicionamento"
             title={<>Mais do que uma agência. Um <span className="gradient-text">departamento de marketing</span> dentro da sua empresa.</>}
             sub="Nós mergulhamos na realidade do seu negócio para construir uma estratégia que conecta marca, conteúdo, tráfego, tecnologia e vendas."
@@ -548,9 +621,11 @@ function PositioningSection() {
           <p className="text-[13px] md:text-base text-muted-foreground mt-2 leading-relaxed">
             Enquanto você foca na gestão da empresa, a Genesis Company estrutura o marketing para gerar clareza, posicionamento e oportunidades comerciais todos os meses.
           </p>
-          <a href="#diagnostico" className="btn-primary mt-6 text-sm">
-            Quero esse departamento na minha empresa <ArrowRight className="h-4 w-4" />
-          </a>
+          <div className="flex justify-center lg:justify-start mt-6">
+            <a href="#diagnostico" className="btn-primary text-sm">
+              Quero esse departamento na minha empresa <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
         </div>
 
         {/* Ecosystem visual */}
@@ -561,7 +636,7 @@ function PositioningSection() {
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
             <div className="glass-strong h-28 w-28 rounded-full grid place-items-center">
               <div className="text-center">
-                <Sparkles className="h-6 w-6 mx-auto gradient-text" />
+                <img src="/genesis-logo-white.png" alt="Genesis" className="h-8 w-8 mx-auto" />
                 <div className="text-xs mt-1 font-bold">Genesis</div>
               </div>
             </div>
@@ -668,6 +743,11 @@ function ServicesSection() {
           </article>
         ))}
       </div>
+      <div className="mt-10 flex justify-center">
+        <a href="#diagnostico" className="btn-primary text-sm">
+          Quero esse time na minha empresa <ArrowRight className="h-4 w-4" />
+        </a>
+      </div>
     </section>
   );
 }
@@ -731,6 +811,11 @@ function BeforeAfterSection() {
           </div>
         </div>
       </div>
+      <div className="mt-10 flex justify-center">
+        <a href="#diagnostico" className="btn-primary text-sm">
+          Quero crescimento previsível <ArrowRight className="h-4 w-4" />
+        </a>
+      </div>
     </section>
   );
 }
@@ -760,6 +845,11 @@ function ForWhoSection() {
             <p className="text-[13px] leading-relaxed text-foreground/90">{i}</p>
           </div>
         ))}
+      </div>
+      <div className="mt-10 flex justify-center">
+        <a href="#diagnostico" className="btn-primary text-sm">
+          Sou esse perfil — quero começar <ArrowRight className="h-4 w-4" />
+        </a>
       </div>
     </section>
   );
@@ -798,6 +888,11 @@ function ProcessSection() {
           ))}
         </div>
       </div>
+      <div className="mt-10 flex justify-center">
+        <a href="#diagnostico" className="btn-primary text-sm">
+          Quero meu diagnóstico gratuito <ArrowRight className="h-4 w-4" />
+        </a>
+      </div>
     </section>
   );
 }
@@ -813,15 +908,15 @@ function FinalCTA() {
              style={{ background: "radial-gradient(closest-side, oklch(0.82 0.17 65 / 0.6), transparent)" }} />
 
         <div className="relative grid lg:grid-cols-[1.2fr_1fr] gap-10 items-center">
-          <div>
+          <div className="text-center lg:text-left">
             <span className="chip"><Shield className="h-3.5 w-3.5" /> Vagas limitadas por mês</span>
             <h2 className="mt-3 text-[1.55rem] md:text-4xl font-bold leading-[1.12]">
               Pronto para transformar o marketing da sua empresa em <span className="gradient-text">crescimento?</span>
             </h2>
-            <p className="mt-3 text-[13px] md:text-base text-muted-foreground max-w-xl leading-relaxed">
+            <p className="mt-3 text-[13px] md:text-base text-muted-foreground max-w-xl leading-relaxed mx-auto lg:mx-0">
               A Genesis Company pode ser o departamento de marketing que conecta sua marca, suas campanhas e seu comercial em uma estratégia feita para gerar resultado.
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap gap-3 justify-center lg:justify-start">
               <a href="#diagnostico" className="btn-primary text-sm">
                 Falar com a Genesis Company <ArrowRight className="h-4 w-4" />
               </a>
@@ -847,18 +942,225 @@ function FinalCTA() {
   );
 }
 
+/* ---------------- PHONE MOCKUP ---------------- */
+function PhoneMockup({ videoSrc }: { videoSrc: string }) {
+  return (
+    <div className="w-[170px] sm:w-[220px] flex-shrink-0"
+         style={{ filter: "drop-shadow(0 30px 70px oklch(0 0 0 / 0.8))" }}>
+      <div className="rounded-[2.2rem] border-[6px] border-white/15 bg-black overflow-hidden">
+        <div className="relative aspect-[9/16]">
+          <video src={videoSrc} autoPlay muted loop playsInline
+                 className="absolute inset-0 w-full h-full object-cover" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------------- VIDEO SHOWCASE ---------------- */
+function VideoShowcaseSection() {
+  return (
+    <section className="section-pad relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none"
+           style={{ background: "radial-gradient(ellipse 90% 70% at 50% 50%, oklch(0.58 0.24 264 / 0.12), transparent)" }} />
+      <div className="relative mx-auto max-w-7xl px-5">
+        <Heading
+          chip="Audiovisual"
+          title={<>Conteúdo que gera <span className="gradient-text">engajamento e vendas</span></>}
+          sub="Produção profissional que transforma sua marca em autoridade e converte seguidores em clientes reais."
+        />
+        <div className="mt-14 flex justify-center items-end gap-5 sm:gap-10">
+          <div style={{ transform: "rotate(-4deg) translateY(12px)" }}>
+            <PhoneMockup videoSrc="/videos/showcase-1.mp4" />
+          </div>
+          <div style={{ transform: "rotate(4deg) translateY(12px)" }}>
+            <PhoneMockup videoSrc="/videos/showcase-2.mp4" />
+          </div>
+        </div>
+        <div className="mt-16 text-center">
+          <a href="#diagnostico" className="btn-primary text-sm">
+            Quero conteúdo assim <ArrowRight className="h-4 w-4" />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- ABOUT SECTION ---------------- */
+function AboutSection() {
+  const stats = [
+    { v: "+R$ 10M", l: "investidos em mídia" },
+    { v: "+120", l: "marcas atendidas" },
+    { v: "7 anos", l: "de mercado" },
+    { v: "+50M", l: "impressões geradas" },
+    { v: "6 frentes", l: "de marketing integradas" },
+    { v: "100%", l: "foco em resultado" },
+  ];
+  return (
+    <section className="section-pad mx-auto max-w-7xl px-5">
+      <Heading
+        chip="Sobre a Genesis"
+        title={<>Uma empresa construída para <span className="gradient-text">transformar negócios</span></>}
+        sub="Há 7 anos conectando estratégia, criatividade e tecnologia para ajudar empresas a crescerem com previsibilidade e consistência."
+      />
+      <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 gap-4">
+        {stats.map((s) => (
+          <div key={s.l} className="glass rounded-2xl p-5 text-center hover:-translate-y-0.5 transition-transform">
+            <div className="text-2xl sm:text-3xl font-bold gradient-text">{s.v}</div>
+            <div className="text-[11px] sm:text-sm text-muted-foreground mt-1.5 leading-snug">{s.l}</div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-8 glass rounded-2xl p-6 sm:p-8">
+        <div className="grid sm:grid-cols-2 gap-6 sm:gap-10">
+          <div>
+            <h3 className="font-bold text-base mb-3">O que nos diferencia</h3>
+            <ul className="space-y-2.5">
+              {[
+                "Atuamos como departamento interno, não como fornecedor externo",
+                "Estratégia, criação e performance em um só contrato",
+                "Relatórios mensais com dados reais de impacto comercial",
+                "Time dedicado que conhece profundamente o seu negócio",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 text-[13px] text-foreground/90">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-success mt-0.5" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-bold text-base mb-3">Como operamos</h3>
+            <ul className="space-y-2.5">
+              {[
+                "Reuniões mensais de alinhamento estratégico",
+                "Planejamento trimestral de campanhas e conteúdo",
+                "Dashboard de resultados atualizado em tempo real",
+                "Suporte direto com o time de especialistas",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 text-[13px] text-foreground/90">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-success mt-0.5" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div className="mt-10 flex justify-center">
+        <a href="#diagnostico" className="btn-primary text-sm">
+          Quero trabalhar com a Genesis <ArrowRight className="h-4 w-4" />
+        </a>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- FAQ ---------------- */
+function FAQSection() {
+  const [open, setOpen] = useState<number | null>(null);
+  const items = [
+    {
+      q: "Quanto custa?",
+      a: "O investimento varia de acordo com o escopo e os serviços contratados. Preencha o diagnóstico e, na reunião, apresentamos uma proposta sob medida para o momento do seu negócio.",
+    },
+    {
+      q: "A Genesis funciona para o meu segmento?",
+      a: "Atendemos empresas de diversos segmentos que faturam acima de R$ 50 mil/mês e querem crescer com marketing estratégico. Já passaram pela Genesis empresas de varejo, gastronomia, fitness, saúde, moda e serviços.",
+    },
+    {
+      q: "Quanto tempo leva para ver resultados?",
+      a: "Os primeiros resultados costumam aparecer entre 30 e 90 dias, dependendo do ponto de partida e das ações priorizadas. Trabalhamos com quick wins para gerar impacto imediato enquanto construímos o crescimento sustentável.",
+    },
+    {
+      q: "Por que contratar a Genesis em vez de montar uma equipe interna?",
+      a: "Com a Genesis você tem acesso a um time completo — estrategista, designer, gestor de tráfego, videomaker, copywriter e analista de dados — por um custo fixo mensal, sem encargos trabalhistas, processo seletivo ou treinamento.",
+    },
+    {
+      q: "Vocês gerenciam o tráfego pago também?",
+      a: "Sim. O tráfego pago faz parte da nossa oferta integrada. Gerenciamos campanhas no Meta Ads, Google Ads e outros canais, sempre conectado à estratégia de conteúdo e ao objetivo comercial da empresa.",
+    },
+    {
+      q: "Como funciona o acompanhamento da minha conta?",
+      a: "Você tem um Account Manager dedicado, reuniões mensais de resultado, relatórios periódicos e acesso a um dashboard atualizado em tempo real. Nosso time está disponível para suporte direto durante toda a operação.",
+    },
+  ];
+  return (
+    <section className="section-pad mx-auto max-w-2xl px-5">
+      <Heading
+        chip="FAQ"
+        title="Perguntas frequentes"
+        sub="Tudo que você precisa saber antes de agendar seu diagnóstico gratuito com a Genesis."
+      />
+      <div className="mt-10 divide-y divide-white/8">
+        {items.map((item, i) => (
+          <div key={i} className="py-5">
+            <button
+              className="w-full flex items-center justify-between gap-4 text-left"
+              onClick={() => setOpen(open === i ? null : i)}
+            >
+              <span className="font-semibold text-[13px] text-foreground">{item.q}</span>
+              <ChevronDown
+                className={`h-5 w-5 text-muted-foreground flex-shrink-0 transition-transform duration-200 ${open === i ? "rotate-180" : ""}`}
+              />
+            </button>
+            {open === i && (
+              <div className="mt-3 pr-9">
+                <p className="text-[13px] md:text-sm text-muted-foreground leading-relaxed">{item.a}</p>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- WHATSAPP CTA ---------------- */
+function WhatsAppCTASection() {
+  return (
+    <section
+      className="py-16 px-5 text-center"
+      style={{ background: "linear-gradient(180deg, transparent 0%, oklch(0.58 0.24 264 / 0.10) 100%)", borderTop: "1px solid oklch(1 0 0 / 0.07)" }}
+    >
+      <div className="mx-auto max-w-md">
+        <h2 className="text-2xl md:text-3xl font-bold leading-tight">
+          Precisa ser atendido com{" "}
+          <span className="gradient-text">urgência?</span>
+        </h2>
+        <p className="mt-3 text-[13px] md:text-base text-muted-foreground">
+          Toque no botão abaixo para falar com o nosso time pelo WhatsApp.
+        </p>
+        <a
+          href="https://wa.me/5521996526969"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-semibold text-sm text-white transition-transform hover:-translate-y-0.5"
+          style={{ background: "#25D366", boxShadow: "0 10px 40px -10px #25D36680" }}
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+          </svg>
+          Falar no WhatsApp
+        </a>
+      </div>
+    </section>
+  );
+}
+
 /* ---------------- FOOTER ---------------- */
 function Footer() {
   return (
-    <footer className="border-t border-white/5 py-10 mt-10">
-      <div className="mx-auto max-w-7xl px-5 flex flex-col md:flex-row gap-4 items-center justify-between text-sm text-muted-foreground">
-        <div className="flex items-center gap-2">
-          <div className="h-7 w-7 rounded-lg grid place-items-center" style={{ background: "var(--gradient-brand)" }}>
-            <Sparkles className="h-3.5 w-3.5 text-background" />
-          </div>
-          <span className="font-display font-bold text-foreground">Genesis Company</span>
+    <footer className="border-t border-white/5 py-8">
+      <div className="mx-auto max-w-7xl px-5 space-y-3 text-center text-[12px] text-muted-foreground">
+        <div className="flex flex-wrap justify-center gap-4">
+          <a href="#" className="hover:text-foreground transition-colors">Política de Privacidade</a>
+          <a href="#" className="hover:text-foreground transition-colors">Termos de Uso</a>
         </div>
-        <p>© {new Date().getFullYear()} Genesis Company. Marketing, vendas e tecnologia em um só lugar.</p>
+        <p><strong className="text-foreground/60">Genesis Company</strong> · CNPJ 52.906.973/0001-98</p>
+        <p>Contato: contato@companygenesis.com.br</p>
+        <p>© {new Date().getFullYear()} Genesis Company · Todos os direitos reservados</p>
       </div>
     </footer>
   );
