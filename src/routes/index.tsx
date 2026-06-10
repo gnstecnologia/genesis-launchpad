@@ -368,29 +368,23 @@ function LeadForm() {
     setSent(true);
   }
   return (
-    <div className="glass-strong rounded-3xl p-6 md:p-7 relative overflow-hidden">
+    <div className="glass-strong rounded-2xl p-4 md:p-5 relative overflow-hidden">
       <div className="absolute -top-20 -right-20 h-48 w-48 rounded-full blur-3xl opacity-50"
            style={{ background: "var(--gradient-brand)" }} />
       <div className="relative">
-        <div className="flex items-center gap-2 mb-3">
-        </div>
-        <h3 className="text-xl md:text-2xl font-bold leading-tight">
-        </h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-        </p>
 
         {sent ? (
-          <div className="mt-6 rounded-2xl p-5 text-center" style={{ background: "var(--gradient-brand-soft)" }}>
-            <CheckCircle2 className="h-10 w-10 mx-auto text-success" />
-            <p className="mt-3 font-semibold">Recebemos seus dados!</p>
-            <p className="text-sm text-muted-foreground mt-1">Nossa equipe entrará em contato em até 1 dia útil.</p>
+          <div className="rounded-xl p-5 text-center" style={{ background: "var(--gradient-brand-soft)" }}>
+            <CheckCircle2 className="h-9 w-9 mx-auto text-success" />
+            <p className="mt-3 font-semibold text-sm">Recebemos seus dados!</p>
+            <p className="text-[12px] text-muted-foreground mt-1">Nossa equipe entrará em contato em até 1 dia útil.</p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="mt-5 grid gap-3">
+          <form onSubmit={handleSubmit} className="grid gap-2">
             <Field name="nome" type="text" placeholder="Seu nome completo" />
             <Field name="email" type="email" placeholder="Seu melhor e-mail" />
-            <div className="grid grid-cols-[64px_1fr] gap-2">
-              <div className="rounded-xl bg-white/5 border border-white/10 px-3 py-3 text-sm flex items-center justify-center text-muted-foreground">
+            <div className="grid grid-cols-[54px_1fr] gap-2">
+              <div className="rounded-lg bg-white/5 border border-white/10 px-2 py-2 text-[12px] flex items-center justify-center text-muted-foreground">
                 +55
               </div>
               <Field name="whatsapp" type="tel" placeholder="(11) 99999-9999" />
@@ -422,11 +416,11 @@ function LeadForm() {
               "Profissionalizar conteúdo e audiovisual",
               "Implementar CRM, IA e automação",
             ]} />
-            <button type="submit" className="btn-primary mt-1 w-full !py-3.5">
-              Quero receber meu diagnóstico <ArrowRight className="h-4 w-4" />
+            <button type="submit" className="btn-primary mt-1 w-full !text-[13px]">
+              Quero receber meu diagnóstico <ArrowRight className="h-3.5 w-3.5" />
             </button>
-            <p className="text-xs text-muted-foreground flex items-center gap-2 justify-center mt-1">
-              <Lock className="h-3 w-3" /> Seus dados estão seguros. Sem spam. Atendimento consultivo.
+            <p className="text-[10px] text-muted-foreground flex items-center gap-1.5 justify-center mt-0.5">
+              <Lock className="h-2.5 w-2.5" /> Seus dados estão seguros. Sem spam.
             </p>
           </form>
 
@@ -443,7 +437,7 @@ function Field({ name, placeholder, type = "text" }: { name: string; placeholder
       type={type}
       required
       placeholder={placeholder}
-      className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/30 transition"
+      className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2.5 text-[13px] placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/30 transition"
     />
   );
 }
@@ -453,7 +447,7 @@ function Select({ name, options }: { name: string; options: string[] }) {
       name={name}
       required
       defaultValue=""
-      className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/30 transition"
+      className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2.5 text-[13px] focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/30 transition"
     >
       <option value="" disabled>{options[0]}</option>
       {options.slice(1).map((o) => <option key={o} value={o} className="bg-card">{o}</option>)}
