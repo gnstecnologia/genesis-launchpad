@@ -9,9 +9,27 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PropostaPrimeHouseRouteImport } from './routes/proposta-prime-house'
+import { Route as PropostaPelloMenosRouteImport } from './routes/proposta-pello-menos'
+import { Route as PropostaRouteImport } from './routes/proposta'
 import { Route as ObrigadoRouteImport } from './routes/obrigado'
 import { Route as IndexRouteImport } from './routes/index'
 
+const PropostaPrimeHouseRoute = PropostaPrimeHouseRouteImport.update({
+  id: '/proposta-prime-house',
+  path: '/proposta-prime-house',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PropostaPelloMenosRoute = PropostaPelloMenosRouteImport.update({
+  id: '/proposta-pello-menos',
+  path: '/proposta-pello-menos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PropostaRoute = PropostaRouteImport.update({
+  id: '/proposta',
+  path: '/proposta',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ObrigadoRoute = ObrigadoRouteImport.update({
   id: '/obrigado',
   path: '/obrigado',
@@ -26,31 +44,80 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/obrigado': typeof ObrigadoRoute
+  '/proposta': typeof PropostaRoute
+  '/proposta-pello-menos': typeof PropostaPelloMenosRoute
+  '/proposta-prime-house': typeof PropostaPrimeHouseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/obrigado': typeof ObrigadoRoute
+  '/proposta': typeof PropostaRoute
+  '/proposta-pello-menos': typeof PropostaPelloMenosRoute
+  '/proposta-prime-house': typeof PropostaPrimeHouseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/obrigado': typeof ObrigadoRoute
+  '/proposta': typeof PropostaRoute
+  '/proposta-pello-menos': typeof PropostaPelloMenosRoute
+  '/proposta-prime-house': typeof PropostaPrimeHouseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/obrigado'
+  fullPaths:
+    | '/'
+    | '/obrigado'
+    | '/proposta'
+    | '/proposta-pello-menos'
+    | '/proposta-prime-house'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/obrigado'
-  id: '__root__' | '/' | '/obrigado'
+  to:
+    | '/'
+    | '/obrigado'
+    | '/proposta'
+    | '/proposta-pello-menos'
+    | '/proposta-prime-house'
+  id:
+    | '__root__'
+    | '/'
+    | '/obrigado'
+    | '/proposta'
+    | '/proposta-pello-menos'
+    | '/proposta-prime-house'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ObrigadoRoute: typeof ObrigadoRoute
+  PropostaRoute: typeof PropostaRoute
+  PropostaPelloMenosRoute: typeof PropostaPelloMenosRoute
+  PropostaPrimeHouseRoute: typeof PropostaPrimeHouseRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/proposta-prime-house': {
+      id: '/proposta-prime-house'
+      path: '/proposta-prime-house'
+      fullPath: '/proposta-prime-house'
+      preLoaderRoute: typeof PropostaPrimeHouseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/proposta-pello-menos': {
+      id: '/proposta-pello-menos'
+      path: '/proposta-pello-menos'
+      fullPath: '/proposta-pello-menos'
+      preLoaderRoute: typeof PropostaPelloMenosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/proposta': {
+      id: '/proposta'
+      path: '/proposta'
+      fullPath: '/proposta'
+      preLoaderRoute: typeof PropostaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/obrigado': {
       id: '/obrigado'
       path: '/obrigado'
@@ -71,6 +138,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ObrigadoRoute: ObrigadoRoute,
+  PropostaRoute: PropostaRoute,
+  PropostaPelloMenosRoute: PropostaPelloMenosRoute,
+  PropostaPrimeHouseRoute: PropostaPrimeHouseRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

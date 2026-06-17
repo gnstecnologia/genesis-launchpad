@@ -26,6 +26,8 @@ import {
   PhoneCall,
   Heart,
   ChevronDown,
+  Star,
+  MapPin,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -59,10 +61,12 @@ function LandingPage() {
       <VideoShowcaseSection />
       <ServicesSection />
       <BeforeAfterSection />
+      <DepoimentosSection />
       <ForWhoSection />
       <ProcessSection />
       <FinalCTA />
       <AboutSection />
+      <LocalizacaoSection />
       <FAQSection />
       <WhatsAppCTASection />
       <Footer />
@@ -308,10 +312,10 @@ function ReferenceCards() {
 /* ---------------- INLINE LOGOS (social proof) ---------------- */
 function InlineLogos() {
   const logos = [
-    { src: "/logos/1.png", alt: "Gauro Pizzas" },
-    { src: "/logos/2.png", alt: "Club Liss" },
-    { src: "/logos/3.png", alt: "Pello Menos" },
-    { src: "/logos/4.png", alt: "Óticas Carol" },
+    { src: "/logos/1.webp", alt: "Gauro Pizzas" },
+    { src: "/logos/2.webp", alt: "Club Liss" },
+    { src: "/logos/3.webp", alt: "Pello Menos" },
+    { src: "/logos/4.webp", alt: "Óticas Carol" },
   ];
   return (
     <div className="text-center">
@@ -412,18 +416,44 @@ function DashboardComposition() {
   );
 }
 
-// Cole aqui a URL do seu Google Apps Script após deployar
 const SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbzsi3ptbQUBGXwULTfNdru30BLRUiGD_DTSz-1UkU_y6NrT0obKNIIFM4uAN8Sg1VHx/exec";
+const GHL_WEBHOOK = "https://services.leadconnectorhq.com/hooks/3PX64HuGchlu0IkZet5Z/webhook-trigger/12186784-e7b1-446c-b9bc-d4265986d9d1";
+
+/* Captura UTMs da URL e persiste em sessionStorage para não perder ao rolar */
+function captureUtms() {
+  if (typeof window === "undefined") return;
+  const params = new URLSearchParams(window.location.search);
+  const keys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+  keys.forEach((k) => {
+    const v = params.get(k);
+    if (v) sessionStorage.setItem(k, v);
+  });
+}
+
+function getUtms() {
+  if (typeof window === "undefined") return {};
+  return {
+    utm_source: sessionStorage.getItem("utm_source") || "",
+    utm_medium: sessionStorage.getItem("utm_medium") || "",
+    utm_campaign: sessionStorage.getItem("utm_campaign") || "",
+    utm_content: sessionStorage.getItem("utm_content") || "",
+    utm_term: sessionStorage.getItem("utm_term") || "",
+  };
+}
 
 /* ---------------- FORM ---------------- */
 function LeadForm() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Captura UTMs assim que o componente monta
+  useState(() => { captureUtms(); });
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     const fd = new FormData(e.currentTarget);
+    const utms = getUtms();
     const data = {
       timestamp: new Date().toLocaleString("pt-BR"),
       nome: fd.get("nome"),
@@ -433,15 +463,36 @@ function LeadForm() {
       faturamento: fd.get("faturamento"),
       segmento: fd.get("segmento"),
       desafio: fd.get("desafio"),
+      ...utms,
     };
     try {
-      if (SHEETS_ENDPOINT) {
-        await fetch(SHEETS_ENDPOINT, {
+      await Promise.allSettled([
+        fetch(SHEETS_ENDPOINT, {
           method: "POST",
           mode: "no-cors",
           body: JSON.stringify(data),
-        });
-      }
+        }),
+        fetch(GHL_WEBHOOK, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            full_name: data.nome,
+            email: data.email,
+            phone: data.whatsapp,
+            company_name: data.empresa,
+            revenue: data.faturamento,
+            segment: data.segmento,
+            challenge: data.desafio,
+            source: "Landing Page Genesis",
+            timestamp: data.timestamp,
+            utm_source: utms.utm_source,
+            utm_medium: utms.utm_medium,
+            utm_campaign: utms.utm_campaign,
+            utm_content: utms.utm_content,
+            utm_term: utms.utm_term,
+          }),
+        }),
+      ]);
     } catch (_) { /* silent */ }
     setLoading(false);
     navigate({ to: "/obrigado" });
@@ -529,13 +580,13 @@ function Select({ name, options }: { name: string; options: string[] }) {
 /* ---------------- LOGOS ---------------- */
 function LogosStrip() {
   const clients = [
-    { name: "Gauro Pizzas", logo: "/logos/1.png" },
-    { name: "Club Liss", logo: "/logos/2.png" },
-    { name: "Pello Menos", logo: "/logos/3.png" },
-    { name: "Óticas Carol", logo: "/logos/4.png" },
-    { name: "Aditex", logo: "/logos/5.png" },
-    { name: "Venum Brasil", logo: "/logos/6.png" },
-    { name: "Big Man Barbearia", logo: "/logos/7.png" },
+    { name: "Gauro Pizzas", logo: "/logos/1.webp" },
+    { name: "Club Liss", logo: "/logos/2.webp" },
+    { name: "Pello Menos", logo: "/logos/3.webp" },
+    { name: "Óticas Carol", logo: "/logos/4.webp" },
+    { name: "Aditex", logo: "/logos/5.webp" },
+    { name: "Venum Brasil", logo: "/logos/6.webp" },
+    { name: "Big Man Barbearia", logo: "/logos/7.webp" },
   ];
   const loop = [...clients, ...clients];
   return (
@@ -638,7 +689,7 @@ function PositioningSection() {
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
             <div className="glass-strong h-28 w-28 rounded-full grid place-items-center">
               <div className="text-center">
-                <img src="/genesis-logo-white.png" alt="Genesis" className="h-8 w-8 mx-auto" />
+                <img src="/genesis-logo-white-96.webp" alt="Genesis" width={32} height={32} className="h-8 w-8 mx-auto" />
                 <div className="text-xs mt-1 font-bold">Genesis</div>
               </div>
             </div>
@@ -1054,6 +1105,120 @@ function AboutSection() {
         <a href="#diagnostico" className="btn-primary text-sm">
           Quero trabalhar com a Genesis <ArrowRight className="h-4 w-4" />
         </a>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- DEPOIMENTOS EM VÍDEO ---------------- */
+function DepoimentosSection() {
+  const depoimentos = [
+    {
+      nome: "Pello Menos",
+      empresa: "Rede de depilação",
+      frase: "A Genesis transformou nosso marketing em uma máquina de vendas.",
+      videoSrc: "/videos/depoimento-pello-menos.mp4",
+    },
+    {
+      nome: "Rubi Laser",
+      empresa: "Depilação a laser",
+      frase: "Hoje temos previsibilidade comercial todos os meses.",
+      videoSrc: "/videos/depoimento-rubi-laser.mp4",
+    },
+  ];
+  return (
+    <section className="section-pad mx-auto max-w-7xl px-5">
+      <Heading
+        chip="Na voz dos clientes"
+        title={
+          <>
+            Quem vive a Genesis no dia a dia, <span className="gradient-text">conta como é</span>
+          </>
+        }
+        sub="Depoimentos reais de quem confiou o marketing da empresa à Genesis Company."
+      />
+      <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
+        {depoimentos.map((d, i) => (
+          <div key={i} className="glass-strong rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300">
+            <div className="relative aspect-[9/12] bg-gradient-to-br from-white/[0.04] to-transparent">
+              <video
+                src={d.videoSrc}
+                controls
+                playsInline
+                preload="metadata"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </div>
+            <div className="p-4">
+              <div className="flex gap-0.5 mb-2">
+                {[...Array(5)].map((_, s) => (
+                  <Star key={s} className="h-3.5 w-3.5 fill-current" style={{ color: "oklch(0.8 0.16 85)" }} />
+                ))}
+              </div>
+              <p className="text-[13px] leading-relaxed text-foreground/90">"{d.frase}"</p>
+              <div className="mt-3 text-xs">
+                <span className="font-semibold">{d.nome}</span>
+                <span className="text-muted-foreground"> · {d.empresa}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- LOCALIZAÇÃO ---------------- */
+function LocalizacaoSection() {
+  const local = {
+    cidade: "Recreio dos Bandeirantes — Rio de Janeiro, RJ",
+    mapsQuery: "Av. das Américas, 19005, Recreio dos Bandeirantes, Rio de Janeiro, RJ",
+  };
+  return (
+    <section className="section-pad mx-auto max-w-7xl px-5">
+      <Heading
+        chip="Onde estamos"
+        title={
+          <>
+            Venha tomar um café <span className="gradient-text">com a gente</span>
+          </>
+        }
+        sub="A Genesis tem sede de 140 m² no Recreio dos Bandeirantes, com espaço para reuniões, alinhamentos e gravações. Clientes são sempre bem-vindos."
+      />
+      <div className="mt-12 grid lg:grid-cols-5 gap-5 max-w-5xl mx-auto">
+        <div className="glass rounded-3xl p-7 lg:col-span-2 flex flex-col justify-center">
+          <span className="chip">
+            <MapPin className="h-3.5 w-3.5" /> Nossa sede
+          </span>
+          <div className="mt-4">
+            <div className="text-lg font-semibold">{local.cidade}</div>
+            <div className="mt-2 text-[13px] text-muted-foreground flex items-center gap-1.5">
+              <Sparkles className="h-3 w-3" /> Atendemos clientes em todo o Brasil
+            </div>
+          </div>
+          <ul className="mt-6 space-y-3">
+            {[
+              "140 m² no Absolutto Business, Av. das Américas, 19.005 — Loja C",
+              "Espaço para reuniões, alinhamentos e gravações",
+              "Time completo trabalhando no mesmo lugar",
+            ].map((d) => (
+              <li key={d} className="flex items-start gap-3 text-[13px]">
+                <CheckCircle2 className="h-5 w-5 shrink-0 text-success mt-0.5" />
+                <span className="text-foreground/90">{d}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="lg:col-span-3 rounded-3xl overflow-hidden border border-white/10 min-h-[280px]">
+          <iframe
+            title="Localização Genesis Company"
+            src={`https://www.google.com/maps?q=${encodeURIComponent(local.mapsQuery)}&output=embed`}
+            className="w-full h-full min-h-[280px]"
+            style={{ border: 0, filter: "invert(90%) hue-rotate(180deg) contrast(0.9)" }}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
       </div>
     </section>
   );
