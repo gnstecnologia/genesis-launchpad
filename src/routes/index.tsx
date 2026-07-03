@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import clublissLogo from "@/assets/clubliss.png.asset.json";
-import { useState, type FormEvent } from "react";
+import { DeferredSection } from "@/components/DeferredSection";
+import { LazyVideo } from "@/components/LazyVideo";
+import { useEffect, useState, type FormEvent } from "react";
 import {
   ArrowRight,
   Sparkles,
@@ -24,7 +25,6 @@ import {
   MessageSquare,
   Lock,
   PhoneCall,
-  Heart,
   ChevronDown,
   Star,
   MapPin,
@@ -46,6 +46,15 @@ export const Route = createFileRoute("/")({
           "O departamento completo de marketing, audiovisual, tecnologia, IA e vendas para empresas que querem crescer com previsibilidade.",
       },
     ],
+    links: [
+      {
+        rel: "preload",
+        as: "image",
+        href: "/videos/video-1-André-poster.webp",
+        type: "image/webp",
+        fetchPriority: "high",
+      },
+    ],
   }),
   component: LandingPage,
 });
@@ -56,18 +65,18 @@ function LandingPage() {
       <TopBar />
       <Hero />
       <LogosStrip />
-      <PainSection />
-      <PositioningSection />
-      <VideoShowcaseSection />
-      <ServicesSection />
-      <BeforeAfterSection />
-      <DepoimentosSection />
-      <ForWhoSection />
-      <ProcessSection />
-      <FinalCTA />
-      <AboutSection />
-      <LocalizacaoSection />
-      <FAQSection />
+      <DeferredSection minHeight="400px"><PainSection /></DeferredSection>
+      <DeferredSection minHeight="400px"><PositioningSection /></DeferredSection>
+      <DeferredSection minHeight="500px"><VideoShowcaseSection /></DeferredSection>
+      <DeferredSection minHeight="400px"><ServicesSection /></DeferredSection>
+      <DeferredSection minHeight="400px"><BeforeAfterSection /></DeferredSection>
+      <DeferredSection minHeight="500px"><DepoimentosSection /></DeferredSection>
+      <DeferredSection minHeight="300px"><ForWhoSection /></DeferredSection>
+      <DeferredSection minHeight="300px"><ProcessSection /></DeferredSection>
+      <DeferredSection minHeight="300px"><FinalCTA /></DeferredSection>
+      <DeferredSection minHeight="300px"><AboutSection /></DeferredSection>
+      <DeferredSection minHeight="320px"><LocalizacaoSection /></DeferredSection>
+      <DeferredSection minHeight="300px"><FAQSection /></DeferredSection>
       <WhatsAppCTASection />
       <Footer />
     </div>
@@ -253,13 +262,17 @@ function ReferenceCards() {
     },
   ];
 
-  const loop = [...cards, ...cards];
+  // Duplicata do marquee só com gradiente — evita 16 downloads de vídeo simultâneos
+  const loop = [
+    ...cards.map((c, i) => ({ ...c, id: `a-${i}`, withVideo: true })),
+    ...cards.map((c, i) => ({ ...c, id: `b-${i}`, withVideo: false })),
+  ];
   return (
     <div className="relative -mx-4 sm:-mx-5 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
       <div className="flex gap-2.5 w-max animate-marquee py-1 px-2">
-        {loop.map((c, i) => (
+        {loop.map((c) => (
           <div
-            key={i}
+            key={c.id}
             className="shrink-0 w-[31vw] max-w-[128px] sm:w-[140px] aspect-[9/15] relative rounded-xl overflow-hidden glass-strong"
           >
             {/* Gradient always visible as background/poster while video loads */}
@@ -267,14 +280,14 @@ function ReferenceCards() {
             <div className="absolute inset-0 opacity-30 mix-blend-overlay"
                  style={{ backgroundImage: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.3), transparent 40%), radial-gradient(circle at 70% 80%, rgba(255,255,255,0.2), transparent 50%)" }} />
 
-            {c.videoSrc && (
-              <video
+            {c.withVideo && c.videoSrc && (
+              <LazyVideo
                 src={c.videoSrc}
                 autoPlay
                 muted
                 loop
                 playsInline
-                preload="metadata"
+                priority={c.id === "a-0"}
                 className="absolute inset-0 h-full w-full object-cover"
                 style={{ zIndex: 1 }}
               />
@@ -328,6 +341,9 @@ function InlineLogos() {
             key={l.alt}
             src={l.src}
             alt={l.alt}
+            width={96}
+            height={32}
+            decoding="async"
             className="h-7 sm:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
           />
         ))}
@@ -446,8 +462,7 @@ function LeadForm() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Captura UTMs assim que o componente monta
-  useState(() => { captureUtms(); });
+  useEffect(() => { captureUtms(); }, []);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -601,6 +616,10 @@ function LogosStrip() {
               <img
                 src={c.logo}
                 alt={c.name}
+                width={120}
+                height={40}
+                loading="lazy"
+                decoding="async"
                 className="h-10 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
               />
             </div>
@@ -1001,9 +1020,15 @@ function PhoneMockup({ videoSrc }: { videoSrc: string }) {
     <div className="w-[170px] sm:w-[220px] flex-shrink-0"
          style={{ filter: "drop-shadow(0 30px 70px oklch(0 0 0 / 0.8))" }}>
       <div className="rounded-[2.2rem] border-[6px] border-white/15 bg-black overflow-hidden">
-        <div className="relative aspect-[9/16]">
-          <video src={videoSrc} autoPlay muted loop playsInline
-                 className="absolute inset-0 w-full h-full object-cover" />
+        <div className="relative aspect-[9/16] bg-gradient-to-br from-white/10 to-transparent">
+          <LazyVideo
+            src={videoSrc}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          />
         </div>
       </div>
     </div>
@@ -1141,11 +1166,10 @@ function DepoimentosSection() {
         {depoimentos.map((d, i) => (
           <div key={i} className="glass-strong rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300">
             <div className="relative aspect-[9/12] bg-gradient-to-br from-white/[0.04] to-transparent">
-              <video
+              <LazyVideo
                 src={d.videoSrc}
                 controls
                 playsInline
-                preload="metadata"
                 className="absolute inset-0 h-full w-full object-cover"
               />
             </div>

@@ -33,5 +33,6 @@ dist-ssr
 .vercel
 
 # Arquivos grandes e locais
-public/videos/
+public/videos/originals/
+public/videos/optimized/
 .claude/

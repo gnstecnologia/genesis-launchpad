@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { DeferredSection } from "@/components/DeferredSection";
+import { LazyVideo } from "@/components/LazyVideo";
 import { useState } from "react";
 import {
   Building2,
@@ -156,22 +158,22 @@ function PropostaPage() {
     <div className="min-h-screen text-foreground overflow-x-hidden">
       <Capa />
       <LogosMarquee />
-      <CartaAbertura />
-      <DiagnosticoSection />
-      <SolucaoSection />
-      <TimeSection />
-      <EscopoSection />
-      <AudiovisualShowcase />
-      <CronogramaSection />
-      <MetodologiaSection />
-      <ProvaSocialSection />
-      <DepoimentosSection />
-      <EstruturaSection />
-      <ComparativoSection />
-      <InvestimentoSection />
-      <GarantiasSection />
-      <FAQPropostaSection />
-      <ProximosPassosSection />
+      <DeferredSection minHeight="300px"><CartaAbertura /></DeferredSection>
+      <DeferredSection minHeight="400px"><DiagnosticoSection /></DeferredSection>
+      <DeferredSection minHeight="400px"><SolucaoSection /></DeferredSection>
+      <DeferredSection minHeight="300px"><TimeSection /></DeferredSection>
+      <DeferredSection minHeight="400px"><EscopoSection /></DeferredSection>
+      <DeferredSection minHeight="500px"><AudiovisualShowcase /></DeferredSection>
+      <DeferredSection minHeight="300px"><CronogramaSection /></DeferredSection>
+      <DeferredSection minHeight="300px"><MetodologiaSection /></DeferredSection>
+      <DeferredSection minHeight="300px"><ProvaSocialSection /></DeferredSection>
+      <DeferredSection minHeight="500px"><DepoimentosSection /></DeferredSection>
+      <DeferredSection minHeight="300px"><EstruturaSection /></DeferredSection>
+      <DeferredSection minHeight="300px"><ComparativoSection /></DeferredSection>
+      <DeferredSection minHeight="300px"><InvestimentoSection /></DeferredSection>
+      <DeferredSection minHeight="200px"><GarantiasSection /></DeferredSection>
+      <DeferredSection minHeight="300px"><FAQPropostaSection /></DeferredSection>
+      <DeferredSection minHeight="200px"><ProximosPassosSection /></DeferredSection>
       <FooterProposta />
     </div>
   );
@@ -245,23 +247,28 @@ function VideoCasesMarquee() {
     { tag: "Redes Sociais", title: "Big Woman Esmalteria", value: "+120%", kpi: "+engajamento", hue: "from-pink-500/50 via-rose-500/40 to-fuchsia-600/50", videoSrc: "/videos/video-7-Big-Woman.mp4" },
     { tag: "Tráfego Pago", title: "Wanderlei Silva", value: "2.1M", kpi: "+194% engajamento", hue: "from-blue-500/50 via-indigo-500/40 to-violet-600/50", videoSrc: "/videos/video-8-Wanderlei-Silva.mp4" },
   ];
-  const loop = [...cards, ...cards];
+  const loop = [
+    ...cards.map((c, i) => ({ ...c, id: `a-${i}`, withVideo: true })),
+    ...cards.map((c, i) => ({ ...c, id: `b-${i}`, withVideo: false })),
+  ];
   return (
     <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
       <div className="flex gap-3 w-max animate-marquee py-1 px-2">
-        {loop.map((c, i) => (
-          <div key={i} className="shrink-0 w-[34vw] max-w-[150px] sm:w-[160px] aspect-[9/15] relative rounded-xl overflow-hidden glass-strong">
+        {loop.map((c) => (
+          <div key={c.id} className="shrink-0 w-[34vw] max-w-[150px] sm:w-[160px] aspect-[9/15] relative rounded-xl overflow-hidden glass-strong">
             <div className={`absolute inset-0 bg-gradient-to-br ${c.hue}`} />
-            <video
-              src={c.videoSrc}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              className="absolute inset-0 h-full w-full object-cover"
-              style={{ zIndex: 1 }}
-            />
+            {c.withVideo && (
+              <LazyVideo
+                src={c.videoSrc}
+                autoPlay
+                muted
+                loop
+                playsInline
+                priority={c.id === "a-0"}
+                className="absolute inset-0 h-full w-full object-cover"
+                style={{ zIndex: 1 }}
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" style={{ zIndex: 2 }} />
             <div className="absolute top-1.5 left-1.5" style={{ zIndex: 3 }}>
               <span className="inline-flex items-center gap-1 rounded-full bg-white/95 text-black text-[9px] font-semibold px-1.5 py-0.5">
@@ -285,13 +292,13 @@ function VideoCasesMarquee() {
 /* ---------------- LOGOS MARQUEE ---------------- */
 function LogosMarquee() {
   const clients = [
-    { name: "Gauro Pizzas", logo: "/logos/1.png" },
-    { name: "Club Liss", logo: "/logos/2.png" },
-    { name: "Pello Menos", logo: "/logos/3.png" },
-    { name: "Óticas Carol", logo: "/logos/4.png" },
-    { name: "Aditex", logo: "/logos/5.png" },
-    { name: "Venum Brasil", logo: "/logos/6.png" },
-    { name: "Big Man Barbearia", logo: "/logos/7.png" },
+    { name: "Gauro Pizzas", logo: "/logos/1.webp" },
+    { name: "Club Liss", logo: "/logos/2.webp" },
+    { name: "Pello Menos", logo: "/logos/3.webp" },
+    { name: "Óticas Carol", logo: "/logos/4.webp" },
+    { name: "Aditex", logo: "/logos/5.webp" },
+    { name: "Venum Brasil", logo: "/logos/6.webp" },
+    { name: "Big Man Barbearia", logo: "/logos/7.webp" },
   ];
   const loop = [...clients, ...clients];
   return (
@@ -303,7 +310,7 @@ function LogosMarquee() {
         <div className="flex gap-14 w-max animate-marquee">
           {loop.map((c, i) => (
             <div key={i} className="flex items-center shrink-0">
-              <img src={c.logo} alt={c.name} className="h-10 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
+              <img src={c.logo} alt={c.name} width={120} height={40} loading="lazy" decoding="async" className="h-10 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
             </div>
           ))}
         </div>
@@ -672,8 +679,8 @@ function PhoneMockup({ videoSrc }: { videoSrc: string }) {
   return (
     <div className="w-[170px] sm:w-[220px] flex-shrink-0" style={{ filter: "drop-shadow(0 30px 70px oklch(0 0 0 / 0.8))" }}>
       <div className="rounded-[2.2rem] border-[6px] border-white/15 bg-black overflow-hidden">
-        <div className="relative aspect-[9/16]">
-          <video src={videoSrc} autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover" />
+        <div className="relative aspect-[9/16] bg-gradient-to-br from-white/10 to-transparent">
+          <LazyVideo src={videoSrc} autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover" />
         </div>
       </div>
     </div>
@@ -985,11 +992,10 @@ function DepoimentosSection() {
           <div key={i} className="glass-strong rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300">
             <div className="relative aspect-[9/12] bg-gradient-to-br from-white/[0.04] to-transparent">
               {d.videoSrc ? (
-                <video
+                <LazyVideo
                   src={d.videoSrc}
                   controls
                   playsInline
-                  preload="metadata"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               ) : (
