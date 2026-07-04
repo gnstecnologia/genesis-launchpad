@@ -1098,32 +1098,53 @@ function LocalizacaoSection() {
       />
 
       {/* Grade 2x2 das fotos do escritório */}
-      <div className="mt-12 grid grid-cols-2 gap-3 sm:gap-5 max-w-5xl mx-auto">
+      <div className="mt-12 grid grid-cols-2 gap-5 sm:gap-8 max-w-5xl mx-auto">
         {fotos.map((f) => (
           <div
             key={f.src}
-            className="group relative aspect-[4/3] overflow-hidden rounded-2xl sm:rounded-3xl border border-white/12 bg-white/[0.03] transition-all duration-500 hover:-translate-y-1 hover:border-white/20"
+            className="group relative aspect-[4/3] rounded-2xl sm:rounded-3xl p-[3px] transition-transform duration-500 hover:-translate-y-1"
             style={{
+              // Borda esfumaçada envolvendo a imagem (halo em volta)
+              background:
+                "linear-gradient(145deg, oklch(1 0 0 / 0.22), oklch(0.58 0.24 264 / 0.35), oklch(1 0 0 / 0.08))",
               boxShadow:
-                "0 24px 60px -20px oklch(0 0 0 / 0.75), 0 0 0 1px oklch(1 0 0 / 0.04), inset 0 1px 0 oklch(1 0 0 / 0.08)",
+                "0 0 0 1px oklch(1 0 0 / 0.06), 0 0 24px 4px oklch(0 0 0 / 0.55), 0 0 48px 12px oklch(0 0 0 / 0.4), 0 0 80px 20px oklch(0.58 0.24 264 / 0.18), 0 20px 50px -12px oklch(0 0 0 / 0.7)",
             }}
           >
-            <img
-              src={f.src}
-              alt={f.alt}
-              loading="lazy"
-              decoding="async"
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-            />
-            {/* Vinheta + brilho sutil */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-white/[0.06]" />
+            {/* Anel externo fumado (blur) */}
             <div
-              className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+              className="pointer-events-none absolute -inset-2 rounded-[1.35rem] sm:rounded-[1.6rem] opacity-70 blur-md transition-opacity duration-500 group-hover:opacity-100"
               style={{
                 background:
-                  "radial-gradient(ellipse 80% 50% at 50% 0%, oklch(0.58 0.24 264 / 0.18), transparent 60%)",
+                  "radial-gradient(ellipse at center, oklch(0.58 0.24 264 / 0.2), transparent 70%)",
+                boxShadow:
+                  "0 0 30px 8px oklch(0 0 0 / 0.5), 0 0 60px 16px oklch(0.58 0.24 264 / 0.15)",
               }}
+              aria-hidden
             />
+            <div
+              className="relative h-full w-full overflow-hidden rounded-[0.9rem] sm:rounded-[1.35rem] bg-black/50"
+              style={{
+                boxShadow:
+                  "inset 0 0 50px 10px oklch(0 0 0 / 0.55), inset 0 0 90px 24px oklch(0 0 0 / 0.3), inset 0 1px 0 oklch(1 0 0 / 0.1)",
+              }}
+            >
+              <img
+                src={f.src}
+                alt={f.alt}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+              />
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "radial-gradient(ellipse 78% 72% at 50% 45%, transparent 40%, oklch(0 0 0 / 0.4) 100%)",
+                }}
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-white/[0.04]" />
+            </div>
           </div>
         ))}
       </div>
