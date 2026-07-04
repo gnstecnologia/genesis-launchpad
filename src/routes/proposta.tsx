@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DeferredSection } from "@/components/DeferredSection";
 import { LazyVideo } from "@/components/LazyVideo";
+import { TestimonialPlayer } from "@/components/TestimonialPlayer";
 import { useState } from "react";
 import {
   Building2,
@@ -238,7 +239,7 @@ function Capa() {
 /* ---------------- VIDEO CASES MARQUEE ---------------- */
 function VideoCasesMarquee() {
   const cards = [
-    { tag: "Tráfego Pago", title: "André Venum Wine", value: "+1.000%", kpi: "criação de marca", hue: "from-fuchsia-500/50 via-purple-600/40 to-indigo-700/50", videoSrc: "/videos/video-1-André.mp4" },
+    { tag: "Tráfego Pago", title: "André Venum Wine", value: "+1.000%", kpi: "criação de marca", hue: "from-fuchsia-500/50 via-purple-600/40 to-indigo-700/50", videoSrc: "/videos/video-1-Andre.mp4" },
     { tag: "Audiovisual", title: "Venum Brasil", value: "1.1M", kpi: "+78% alcance", hue: "from-red-500/50 via-orange-500/40 to-yellow-500/50", videoSrc: "/videos/video-2-Venum.mp4" },
     { tag: "Audiovisual", title: "Venum Brasil", value: "760K", kpi: "+124% engajamento", hue: "from-orange-500/50 via-red-600/40 to-rose-700/50", videoSrc: "/videos/video-3-Venum.mp4" },
     { tag: "Redes Sociais", title: "Big Man Barbearia", value: "+2.5k", kpi: "+300% crescimento", hue: "from-violet-500/50 via-blue-500/40 to-cyan-500/50", videoSrc: "/videos/video-4-Big-Man.mp4" },
@@ -248,8 +249,8 @@ function VideoCasesMarquee() {
     { tag: "Tráfego Pago", title: "Wanderlei Silva", value: "2.1M", kpi: "+194% engajamento", hue: "from-blue-500/50 via-indigo-500/40 to-violet-600/50", videoSrc: "/videos/video-8-Wanderlei-Silva.mp4" },
   ];
   const loop = [
-    ...cards.map((c, i) => ({ ...c, id: `a-${i}`, withVideo: true })),
-    ...cards.map((c, i) => ({ ...c, id: `b-${i}`, withVideo: false })),
+    ...cards.map((c, i) => ({ ...c, id: `a-${i}` })),
+    ...cards.map((c, i) => ({ ...c, id: `b-${i}` })),
   ];
   return (
     <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
@@ -257,18 +258,16 @@ function VideoCasesMarquee() {
         {loop.map((c) => (
           <div key={c.id} className="shrink-0 w-[34vw] max-w-[150px] sm:w-[160px] aspect-[9/15] relative rounded-xl overflow-hidden glass-strong">
             <div className={`absolute inset-0 bg-gradient-to-br ${c.hue}`} />
-            {c.withVideo && (
-              <LazyVideo
-                src={c.videoSrc}
-                autoPlay
-                muted
-                loop
-                playsInline
-                priority={c.id === "a-0"}
-                className="absolute inset-0 h-full w-full object-cover"
-                style={{ zIndex: 1 }}
-              />
-            )}
+            <LazyVideo
+              src={c.videoSrc}
+              autoPlay
+              muted
+              loop
+              playsInline
+              priority={c.id === "a-0" || c.id === "b-0"}
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ zIndex: 1 }}
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" style={{ zIndex: 2 }} />
             <div className="absolute top-1.5 left-1.5" style={{ zIndex: 3 }}>
               <span className="inline-flex items-center gap-1 rounded-full bg-white/95 text-black text-[9px] font-semibold px-1.5 py-0.5">
@@ -989,44 +988,48 @@ function DepoimentosSection() {
       />
       <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
         {PROPOSTA.depoimentos.map((d, i) => (
-          <div key={i} className="glass-strong rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300">
-            <div className="relative aspect-[9/12] bg-gradient-to-br from-white/[0.04] to-transparent">
-              {d.videoSrc ? (
-                <LazyVideo
-                  src={d.videoSrc}
-                  controls
-                  playsInline
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center px-5">
-                  <div
-                    className="h-14 w-14 rounded-full grid place-items-center animate-pulse-glow"
-                    style={{ background: "var(--gradient-brand-soft)", border: "1px solid oklch(1 0 0 / 0.15)" }}
-                  >
-                    <Video className="h-6 w-6" />
-                  </div>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    Vídeo de depoimento
-                    <br />
-                    <span className="opacity-60">em breve aqui</span>
-                  </p>
+          <article
+            key={i}
+            className="glass-strong rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300 hover:border-white/20"
+          >
+            {d.videoSrc ? (
+              <TestimonialPlayer src={d.videoSrc} title={d.nome} />
+            ) : (
+              <div className="relative aspect-[9/12] flex flex-col items-center justify-center gap-3 text-center px-5 bg-gradient-to-br from-white/[0.04] to-transparent">
+                <div
+                  className="h-14 w-14 rounded-full grid place-items-center animate-pulse-glow"
+                  style={{ background: "var(--gradient-brand-soft)", border: "1px solid oklch(1 0 0 / 0.15)" }}
+                >
+                  <Video className="h-6 w-6" />
                 </div>
-              )}
-            </div>
-            <div className="p-4">
-              <div className="flex gap-0.5 mb-2">
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Vídeo de depoimento
+                  <br />
+                  <span className="opacity-60">em breve aqui</span>
+                </p>
+              </div>
+            )}
+            <div className="p-4 sm:p-5">
+              <div className="flex gap-0.5 mb-2.5">
                 {[...Array(5)].map((_, s) => (
                   <Star key={s} className="h-3.5 w-3.5 fill-current" style={{ color: "oklch(0.8 0.16 85)" }} />
                 ))}
               </div>
               <p className="text-[13px] leading-relaxed text-foreground/90">"{d.frase}"</p>
-              <div className="mt-3 text-xs">
-                <span className="font-semibold">{d.nome}</span>
-                <span className="text-muted-foreground"> · {d.empresa}</span>
+              <div className="mt-3 flex items-center gap-3">
+                <div
+                  className="h-9 w-9 rounded-full grid place-items-center text-xs font-bold shrink-0"
+                  style={{ background: "var(--gradient-brand)", color: "var(--background)" }}
+                >
+                  {d.nome.slice(0, 1)}
+                </div>
+                <div className="text-xs leading-snug">
+                  <div className="font-semibold text-foreground">{d.nome}</div>
+                  <div className="text-muted-foreground">{d.empresa}</div>
+                </div>
               </div>
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </section>

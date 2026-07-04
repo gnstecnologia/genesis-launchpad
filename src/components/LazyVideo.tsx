@@ -6,7 +6,7 @@ type LazyVideoProps = Omit<VideoHTMLAttributes<HTMLVideoElement>, "src"> & {
   src: string;
   lazy?: boolean;
   pauseOffscreen?: boolean;
-  /** Ignora o limite global de autoplay (use só no 1º vídeo do hero) */
+  /** Ignora o limite global de autoplay (use no 1º vídeo do hero) */
   priority?: boolean;
 };
 
@@ -45,13 +45,17 @@ export function LazyVideo({
       ([entry]) => {
         if (entry.isIntersecting) {
           setActive(true);
-          tryPlay();
+          // Garante que o browser peça o arquivo assim que entrar na tela
+          queueMicrotask(() => {
+            el.load();
+            tryPlay();
+          });
         } else if (pauseOffscreen) {
           el.pause();
           if (autoPlay && !priority) releaseAutoplay(el);
         }
       },
-      { rootMargin: "120px", threshold: 0.15 },
+      { rootMargin: "200px", threshold: 0.05 },
     );
 
     observer.observe(el);
@@ -59,16 +63,18 @@ export function LazyVideo({
       observer.disconnect();
       if (autoPlay && !priority) releaseAutoplay(el);
     };
-  }, [autoPlay, pauseOffscreen, priority]);
+  }, [autoPlay, pauseOffscreen, priority, mp4, webm]);
 
   return (
     <video
       ref={ref}
       poster={posterProp ?? poster}
-      autoPlay={active && autoPlay}
-      preload="none"
       className={className}
+      playsInline
+      preload={active ? "auto" : "none"}
       {...props}
+      autoPlay={active && autoPlay}
+      muted={autoPlay ? true : props.muted}
     >
       {active && (
         <>

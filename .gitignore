@@ -35,4 +35,11 @@ dist-ssr
 # Arquivos grandes e locais
 public/videos/originals/
 public/videos/optimized/
+public/videos/_raw/
 .claude/
+
+# Secrets
+.env
+.env.*
+!.env.example
+.env*

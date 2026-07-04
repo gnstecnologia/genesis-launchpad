@@ -1,9 +1,12 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { CtaButton, CtaLink } from "@/components/CtaButton";
 import { DeferredSection } from "@/components/DeferredSection";
 import { LazyVideo } from "@/components/LazyVideo";
+import { EcosystemOrbit } from "@/components/motion/EcosystemOrbit";
+import { HeroStats, LiveDashboard, LiveDashboardMobile } from "@/components/motion/LiveDashboard";
+import { TestimonialPlayer } from "@/components/TestimonialPlayer";
 import { useEffect, useState, type FormEvent } from "react";
 import {
-  ArrowRight,
   Sparkles,
   TrendingUp,
   Target,
@@ -11,8 +14,6 @@ import {
   Video,
   Bot,
   Megaphone,
-  BarChart3,
-  Calendar,
   Zap,
   Shield,
   CheckCircle2,
@@ -28,6 +29,8 @@ import {
   ChevronDown,
   Star,
   MapPin,
+  Building2,
+  List,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -50,7 +53,7 @@ export const Route = createFileRoute("/")({
       {
         rel: "preload",
         as: "image",
-        href: "/videos/video-1-André-poster.webp",
+        href: "/videos/video-1-Andre-poster.webp",
         type: "image/webp",
         fetchPriority: "high",
       },
@@ -137,21 +140,13 @@ function Hero() {
         <div className="mt-8 grid lg:grid-cols-[1fr_1.05fr] gap-10 items-start">
           <div id="diagnostico" className="order-1 lg:order-2">
             <LeadForm />
+            <div className="mt-6 lg:hidden">
+              <LiveDashboardMobile />
+            </div>
           </div>
           <div className="order-2 lg:order-1 hidden lg:block">
-            <DashboardComposition />
-            <div className="mt-8 grid grid-cols-3 gap-4">
-              {[
-                { v: "+10M", l: "investidos em mídia" },
-                { v: "+120", l: "marcas atendidas" },
-                { v: "7", l: "anos de mercado" },
-              ].map((s) => (
-                <div key={s.l} className="glass rounded-2xl p-4">
-                  <div className="text-2xl font-bold gradient-text">{s.v}</div>
-                  <div className="text-xs text-muted-foreground mt-1 leading-snug">{s.l}</div>
-                </div>
-              ))}
-            </div>
+            <LiveDashboard />
+            <HeroStats />
           </div>
         </div>
       </div>
@@ -181,7 +176,7 @@ function ReferenceCards() {
       hue: "from-fuchsia-500/50 via-purple-600/40 to-indigo-700/50",
       kpi: "criação de marca",
       handle: "@andrevenum",
-      videoSrc: "/videos/video-1-André.mp4",
+      videoSrc: "/videos/video-1-Andre.mp4",
     },
     {
       tag: "Audiovisual",
@@ -262,10 +257,10 @@ function ReferenceCards() {
     },
   ];
 
-  // Duplicata do marquee só com gradiente — evita 16 downloads de vídeo simultâneos
+  // Loop contínuo: as duas metades usam vídeo (lazy + pool de autoplay)
   const loop = [
-    ...cards.map((c, i) => ({ ...c, id: `a-${i}`, withVideo: true })),
-    ...cards.map((c, i) => ({ ...c, id: `b-${i}`, withVideo: false })),
+    ...cards.map((c, i) => ({ ...c, id: `a-${i}` })),
+    ...cards.map((c, i) => ({ ...c, id: `b-${i}` })),
   ];
   return (
     <div className="relative -mx-4 sm:-mx-5 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
@@ -280,14 +275,14 @@ function ReferenceCards() {
             <div className="absolute inset-0 opacity-30 mix-blend-overlay"
                  style={{ backgroundImage: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.3), transparent 40%), radial-gradient(circle at 70% 80%, rgba(255,255,255,0.2), transparent 50%)" }} />
 
-            {c.withVideo && c.videoSrc && (
+            {c.videoSrc && (
               <LazyVideo
                 src={c.videoSrc}
                 autoPlay
                 muted
                 loop
                 playsInline
-                priority={c.id === "a-0"}
+                priority={c.id === "a-0" || c.id === "b-0"}
                 className="absolute inset-0 h-full w-full object-cover"
                 style={{ zIndex: 1 }}
               />
@@ -347,86 +342,6 @@ function InlineLogos() {
             className="h-7 sm:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
           />
         ))}
-      </div>
-    </div>
-  );
-}
-
-function DashboardComposition() {
-  return (
-    <div className="relative h-[420px]">
-      {/* Big metric card */}
-      <div className="glass-strong absolute top-0 left-0 w-[62%] rounded-2xl p-5 animate-float-slow">
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span className="flex items-center gap-2"><BarChart3 className="h-3.5 w-3.5" /> Campanhas ativas</span>
-          <span className="text-success">+24%</span>
-        </div>
-        <div className="mt-2 text-3xl font-bold">R$ 184.320</div>
-        <div className="text-xs text-muted-foreground">investidos este mês</div>
-        <div className="mt-4 flex items-end gap-1 h-14">
-          {[40, 65, 35, 80, 55, 90, 70, 95, 60, 88, 72, 100].map((h, i) => (
-            <div key={i} className="flex-1 rounded-sm"
-                 style={{ height: `${h}%`, background: "var(--gradient-brand)", opacity: 0.6 + i * 0.03 }} />
-          ))}
-        </div>
-      </div>
-
-      {/* Leads card */}
-      <div className="glass-strong absolute top-4 right-0 w-[42%] rounded-2xl p-4 animate-float" style={{ animationDelay: "0.5s" }}>
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span className="flex items-center gap-2"><Users className="h-3.5 w-3.5" /> Leads gerados</span>
-        </div>
-        <div className="mt-2 text-2xl font-bold gradient-text">1.247</div>
-        <div className="text-xs text-success mt-1">+38% vs mês anterior</div>
-      </div>
-
-      {/* Reuniões */}
-      <div className="glass-strong absolute top-44 right-6 w-[55%] rounded-2xl p-4 animate-float" style={{ animationDelay: "1s" }}>
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span className="flex items-center gap-2"><Calendar className="h-3.5 w-3.5" /> Reuniões agendadas</span>
-        </div>
-        <div className="mt-2 flex items-center justify-between">
-          <div className="text-2xl font-bold">86</div>
-          <div className="flex -space-x-2">
-            {["#a78bfa", "#f472b6", "#fbbf24", "#34d399"].map((c, i) => (
-              <div key={i} className="h-7 w-7 rounded-full border-2 border-background" style={{ background: c }} />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Crescimento */}
-      <div className="glass-strong absolute bottom-12 left-2 w-[50%] rounded-2xl p-4 animate-float-slow" style={{ animationDelay: "0.3s" }}>
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span className="flex items-center gap-2"><TrendingUp className="h-3.5 w-3.5" /> Crescimento comercial</span>
-        </div>
-        <div className="mt-2 text-2xl font-bold">+62%</div>
-        <svg viewBox="0 0 100 30" className="mt-2 w-full h-8">
-          <defs>
-            <linearGradient id="lg" x1="0" x2="1">
-              <stop offset="0%" stopColor="oklch(0.72 0.2 295)" />
-              <stop offset="100%" stopColor="oklch(0.82 0.17 65)" />
-            </linearGradient>
-          </defs>
-          <path d="M0,25 Q20,20 30,18 T55,10 T100,4" fill="none" stroke="url(#lg)" strokeWidth="2" />
-        </svg>
-      </div>
-
-      {/* IA/CRM */}
-      <div className="glass-strong absolute bottom-0 right-0 w-[44%] rounded-2xl p-4 animate-float" style={{ animationDelay: "1.2s" }}>
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span className="flex items-center gap-2"><Bot className="h-3.5 w-3.5" /> CRM + IA</span>
-          <span className="h-2 w-2 rounded-full bg-success animate-pulse-glow" />
-        </div>
-        <div className="mt-2 text-sm font-medium">Qualificação automática</div>
-        <div className="mt-2 h-1.5 rounded-full bg-white/10 overflow-hidden">
-          <div className="h-full w-[78%]" style={{ background: "var(--gradient-brand)" }} />
-        </div>
-      </div>
-
-      {/* Floating badge */}
-      <div className="glass absolute top-32 left-4 rounded-full px-3 py-1.5 text-xs flex items-center gap-1.5 animate-float" style={{ animationDelay: "0.8s" }}>
-        <Video className="h-3 w-3" /> Audiovisual ativo
       </div>
     </div>
   );
@@ -554,9 +469,15 @@ function LeadForm() {
               "Profissionalizar conteúdo e audiovisual",
               "Implementar CRM, IA e automação",
             ]} />
-            <button type="submit" disabled={loading} className="btn-primary mt-1 w-full !text-[13px]">
-              {loading ? "Enviando..." : <>Quero receber meu diagnóstico <ArrowRight className="h-3.5 w-3.5" /></>}
-            </button>
+            <CtaButton
+              type="submit"
+              icon={Sparkles}
+              loading={loading}
+              disabled={loading}
+              className="mt-1 w-full !text-[13px]"
+            >
+              Quero receber meu diagnóstico
+            </CtaButton>
             <p className="text-[10px] text-muted-foreground flex items-center gap-1.5 justify-center mt-0.5">
               <Lock className="h-2.5 w-2.5" /> Seus dados estão seguros. Sem spam.
             </p>
@@ -661,9 +582,9 @@ function PainSection() {
         ))}
       </div>
       <div className="mt-10 flex justify-center">
-        <a href="#diagnostico" className="btn-primary text-sm">
-          Quero resolver esses problemas <ArrowRight className="h-4 w-4" />
-        </a>
+        <CtaLink href="#diagnostico" icon={Zap}>
+          Quero resolver esses problemas
+        </CtaLink>
       </div>
     </section>
   );
@@ -671,15 +592,6 @@ function PainSection() {
 
 /* ---------------- POSITIONING ---------------- */
 function PositioningSection() {
-  const nodes = [
-    { icon: Brain, label: "Estratégia" },
-    { icon: Megaphone, label: "Conteúdo" },
-    { icon: Target, label: "Tráfego" },
-    { icon: Video, label: "Audiovisual" },
-    { icon: Users, label: "CRM" },
-    { icon: Bot, label: "IA" },
-    { icon: TrendingUp, label: "Vendas" },
-  ];
   return (
     <section className="section-pad mx-auto max-w-7xl px-5">
       <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -694,53 +606,13 @@ function PositioningSection() {
             Enquanto você foca na gestão da empresa, a Genesis Company estrutura o marketing para gerar clareza, posicionamento e oportunidades comerciais todos os meses.
           </p>
           <div className="flex justify-center lg:justify-start mt-6">
-            <a href="#diagnostico" className="btn-primary text-sm">
-              Quero esse departamento na minha empresa <ArrowRight className="h-4 w-4" />
-            </a>
+            <CtaLink href="#diagnostico" icon={Building2}>
+              Quero esse departamento na minha empresa
+            </CtaLink>
           </div>
         </div>
 
-        {/* Ecosystem visual */}
-        <div className="relative aspect-square max-w-lg w-full mx-auto">
-          <div className="absolute inset-0 rounded-full blur-3xl opacity-40"
-               style={{ background: "var(--gradient-brand)" }} />
-          {/* center */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-            <div className="glass-strong h-28 w-28 rounded-full grid place-items-center">
-              <div className="text-center">
-                <img src="/genesis-logo-white-96.webp" alt="Genesis" width={32} height={32} className="h-8 w-8 mx-auto" />
-                <div className="text-xs mt-1 font-bold">Genesis</div>
-              </div>
-            </div>
-          </div>
-          {/* orbit nodes */}
-          {nodes.map((n, i) => {
-            const angle = (i / nodes.length) * Math.PI * 2 - Math.PI / 2;
-            const r = 42; // %
-            const x = 50 + r * Math.cos(angle);
-            const y = 50 + r * Math.sin(angle);
-            return (
-              <div
-                key={n.label}
-                className="absolute -translate-x-1/2 -translate-y-1/2 glass rounded-2xl px-3 py-2 flex items-center gap-2 animate-float"
-                style={{ left: `${x}%`, top: `${y}%`, animationDelay: `${i * 0.2}s` }}
-              >
-                <n.icon className="h-4 w-4" />
-                <span className="text-xs font-medium">{n.label}</span>
-              </div>
-            );
-          })}
-          {/* connecting lines */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100">
-            {nodes.map((_, i) => {
-              const angle = (i / nodes.length) * Math.PI * 2 - Math.PI / 2;
-              const r = 38;
-              const x = 50 + r * Math.cos(angle);
-              const y = 50 + r * Math.sin(angle);
-              return <line key={i} x1="50" y1="50" x2={x} y2={y} stroke="oklch(1 0 0 / 0.08)" strokeWidth="0.3" strokeDasharray="1 1" />;
-            })}
-          </svg>
-        </div>
+        <EcosystemOrbit />
       </div>
     </section>
   );
@@ -816,9 +688,9 @@ function ServicesSection() {
         ))}
       </div>
       <div className="mt-10 flex justify-center">
-        <a href="#diagnostico" className="btn-primary text-sm">
-          Quero esse time na minha empresa <ArrowRight className="h-4 w-4" />
-        </a>
+        <CtaLink href="#diagnostico" icon={Users}>
+          Quero esse time na minha empresa
+        </CtaLink>
       </div>
     </section>
   );
@@ -884,9 +756,9 @@ function BeforeAfterSection() {
         </div>
       </div>
       <div className="mt-10 flex justify-center">
-        <a href="#diagnostico" className="btn-primary text-sm">
-          Quero crescimento previsível <ArrowRight className="h-4 w-4" />
-        </a>
+        <CtaLink href="#diagnostico" icon={TrendingUp}>
+          Quero crescimento previsível
+        </CtaLink>
       </div>
     </section>
   );
@@ -919,9 +791,9 @@ function ForWhoSection() {
         ))}
       </div>
       <div className="mt-10 flex justify-center">
-        <a href="#diagnostico" className="btn-primary text-sm">
-          Sou esse perfil — quero começar <ArrowRight className="h-4 w-4" />
-        </a>
+        <CtaLink href="#diagnostico" icon={CheckCircle2}>
+          Sou esse perfil — quero começar
+        </CtaLink>
       </div>
     </section>
   );
@@ -961,9 +833,9 @@ function ProcessSection() {
         </div>
       </div>
       <div className="mt-10 flex justify-center">
-        <a href="#diagnostico" className="btn-primary text-sm">
-          Quero meu diagnóstico gratuito <ArrowRight className="h-4 w-4" />
-        </a>
+        <CtaLink href="#diagnostico" icon={Sparkles}>
+          Quero meu diagnóstico gratuito
+        </CtaLink>
       </div>
     </section>
   );
@@ -989,10 +861,12 @@ function FinalCTA() {
               A Genesis Company pode ser o departamento de marketing que conecta sua marca, suas campanhas e seu comercial em uma estratégia feita para gerar resultado.
             </p>
             <div className="mt-6 flex flex-wrap gap-3 justify-center lg:justify-start">
-              <a href="#diagnostico" className="btn-primary text-sm">
-                Falar com a Genesis Company <ArrowRight className="h-4 w-4" />
-              </a>
-              <a href="#servicos" className="btn-ghost text-sm">Ver serviços novamente</a>
+              <CtaLink href="#diagnostico" icon={MessageSquare}>
+                Falar com a Genesis Company
+              </CtaLink>
+              <CtaLink href="#servicos" icon={List} variant="ghost">
+                Ver serviços novamente
+              </CtaLink>
             </div>
           </div>
           <div className="glass rounded-2xl p-6">
@@ -1006,7 +880,9 @@ function FinalCTA() {
                 </li>
               ))}
             </ol>
-            <a href="#diagnostico" className="btn-ghost w-full mt-6 justify-center">Ir para o formulário</a>
+            <CtaLink href="#diagnostico" icon={Sparkles} variant="ghost" className="w-full mt-6 justify-center">
+              Ir para o formulário
+            </CtaLink>
           </div>
         </div>
       </div>
@@ -1055,10 +931,10 @@ function VideoShowcaseSection() {
             <PhoneMockup videoSrc="/videos/showcase-2.mp4" />
           </div>
         </div>
-        <div className="mt-16 text-center">
-          <a href="#diagnostico" className="btn-primary text-sm">
-            Quero conteúdo assim <ArrowRight className="h-4 w-4" />
-          </a>
+        <div className="mt-16 text-center flex justify-center">
+          <CtaLink href="#diagnostico" icon={Video}>
+            Quero conteúdo assim
+          </CtaLink>
         </div>
       </div>
     </section>
@@ -1127,9 +1003,9 @@ function AboutSection() {
         </div>
       </div>
       <div className="mt-10 flex justify-center">
-        <a href="#diagnostico" className="btn-primary text-sm">
-          Quero trabalhar com a Genesis <ArrowRight className="h-4 w-4" />
-        </a>
+        <CtaLink href="#diagnostico" icon={Rocket}>
+          Quero trabalhar com a Genesis
+        </CtaLink>
       </div>
     </section>
   );
@@ -1162,30 +1038,35 @@ function DepoimentosSection() {
         }
         sub="Depoimentos reais de quem confiou o marketing da empresa à Genesis Company."
       />
-      <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
+      <div className="mt-12 grid sm:grid-cols-2 gap-5 max-w-3xl mx-auto">
         {depoimentos.map((d, i) => (
-          <div key={i} className="glass-strong rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300">
-            <div className="relative aspect-[9/12] bg-gradient-to-br from-white/[0.04] to-transparent">
-              <LazyVideo
-                src={d.videoSrc}
-                controls
-                playsInline
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            </div>
-            <div className="p-4">
-              <div className="flex gap-0.5 mb-2">
+          <article
+            key={i}
+            className="glass-strong rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300 hover:border-white/20"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            <TestimonialPlayer src={d.videoSrc} title={d.nome} />
+            <div className="p-4 sm:p-5">
+              <div className="flex gap-0.5 mb-2.5">
                 {[...Array(5)].map((_, s) => (
                   <Star key={s} className="h-3.5 w-3.5 fill-current" style={{ color: "oklch(0.8 0.16 85)" }} />
                 ))}
               </div>
-              <p className="text-[13px] leading-relaxed text-foreground/90">"{d.frase}"</p>
-              <div className="mt-3 text-xs">
-                <span className="font-semibold">{d.nome}</span>
-                <span className="text-muted-foreground"> · {d.empresa}</span>
+              <p className="text-[13px] sm:text-sm leading-relaxed text-foreground/90">"{d.frase}"</p>
+              <div className="mt-3 flex items-center gap-3">
+                <div
+                  className="h-9 w-9 rounded-full grid place-items-center text-xs font-bold shrink-0"
+                  style={{ background: "var(--gradient-brand)", color: "var(--background)" }}
+                >
+                  {d.nome.slice(0, 1)}
+                </div>
+                <div className="text-xs leading-snug">
+                  <div className="font-semibold text-foreground">{d.nome}</div>
+                  <div className="text-muted-foreground">{d.empresa}</div>
+                </div>
               </div>
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </section>
@@ -1198,6 +1079,12 @@ function LocalizacaoSection() {
     cidade: "Recreio dos Bandeirantes — Rio de Janeiro, RJ",
     mapsQuery: "Av. das Américas, 19005, Recreio dos Bandeirantes, Rio de Janeiro, RJ",
   };
+  const fotos = [
+    { src: "/escritorio/foto-1.png", alt: "Corredor da sede Genesis Company" },
+    { src: "/escritorio/foto-2.png", alt: "Fachada da Genesis Company no Absolutto Business" },
+    { src: "/escritorio/foto-3.png", alt: "Time Genesis trabalhando no escritório" },
+    { src: "/escritorio/foto-4.png", alt: "Espaço de trabalho da Genesis Company" },
+  ];
   return (
     <section className="section-pad mx-auto max-w-7xl px-5">
       <Heading
@@ -1209,7 +1096,39 @@ function LocalizacaoSection() {
         }
         sub="A Genesis tem sede de 140 m² no Recreio dos Bandeirantes, com espaço para reuniões, alinhamentos e gravações. Clientes são sempre bem-vindos."
       />
-      <div className="mt-12 grid lg:grid-cols-5 gap-5 max-w-5xl mx-auto">
+
+      {/* Grade 2x2 das fotos do escritório */}
+      <div className="mt-12 grid grid-cols-2 gap-3 sm:gap-5 max-w-5xl mx-auto">
+        {fotos.map((f) => (
+          <div
+            key={f.src}
+            className="group relative aspect-[4/3] overflow-hidden rounded-2xl sm:rounded-3xl border border-white/12 bg-white/[0.03] transition-all duration-500 hover:-translate-y-1 hover:border-white/20"
+            style={{
+              boxShadow:
+                "0 24px 60px -20px oklch(0 0 0 / 0.75), 0 0 0 1px oklch(1 0 0 / 0.04), inset 0 1px 0 oklch(1 0 0 / 0.08)",
+            }}
+          >
+            <img
+              src={f.src}
+              alt={f.alt}
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            />
+            {/* Vinheta + brilho sutil */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-white/[0.06]" />
+            <div
+              className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+              style={{
+                background:
+                  "radial-gradient(ellipse 80% 50% at 50% 0%, oklch(0.58 0.24 264 / 0.18), transparent 60%)",
+              }}
+            />
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-5 grid lg:grid-cols-5 gap-5 max-w-5xl mx-auto">
         <div className="glass rounded-3xl p-7 lg:col-span-2 flex flex-col justify-center">
           <span className="chip">
             <MapPin className="h-3.5 w-3.5" /> Nossa sede
