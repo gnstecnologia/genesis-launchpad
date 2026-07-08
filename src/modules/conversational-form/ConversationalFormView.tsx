@@ -9,35 +9,13 @@ import { useConversationalForm } from "./ConversationalFormProvider";
 import { useChatFlow } from "./useChatFlow";
 import "./conversational-form.css";
 
-function formatTime(date = new Date()) {
-  return date.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
-}
-
-function ChatHeader({ onBack }: { onBack: () => void }) {
-  return (
-    <header className="cf-header">
-      <button type="button" onClick={onBack} className="cf-header-back" aria-label="Voltar para a landing page">
-        <ArrowLeft className="h-5 w-5" />
-      </button>
-      <LucasAvatar size="lg" />
-      <div className="cf-header-info">
-        <p className="cf-header-name">
-          {CHAT_AGENT.name}
-          <img src="/genesis-logo.svg" alt="" className="h-3.5 w-3.5 opacity-80" />
-        </p>
-        <p className="cf-header-status">{CHAT_AGENT.status}</p>
-      </div>
-    </header>
-  );
-}
-
 function ChatBubble({ role, text }: { role: "bot" | "user"; text: string }) {
   const lines = text.split("\n");
 
   return (
     <div className={`cf-row ${role === "user" ? "cf-row-user" : "cf-row-bot"}`}>
-      {role === "bot" && <LucasAvatar size="sm" />}
-      <div className="cf-bubble-wrap">
+      <div className="cf-row-inner">
+        {role === "bot" && <LucasAvatar />}
         <div className={`cf-bubble ${role === "user" ? "cf-bubble-user" : "cf-bubble-bot"}`}>
           {lines.map((line, index) => (
             <span key={`${line}-${index}`}>
@@ -46,10 +24,6 @@ function ChatBubble({ role, text }: { role: "bot" | "user"; text: string }) {
             </span>
           ))}
         </div>
-        <div className="cf-bubble-meta">
-          <span>{formatTime()}</span>
-          {role === "user" && <span className="cf-check">✓✓</span>}
-        </div>
       </div>
     </div>
   );
@@ -57,14 +31,12 @@ function ChatBubble({ role, text }: { role: "bot" | "user"; text: string }) {
 
 function ChatTypingIndicator() {
   return (
-    <div className="cf-row cf-row-bot">
-      <LucasAvatar size="sm" />
-      <div className="cf-bubble-wrap">
-        <div className="cf-bubble cf-bubble-bot cf-typing">
-          <span />
-          <span />
-          <span />
-        </div>
+    <div className="cf-typing-row">
+      <LucasAvatar />
+      <div className="cf-typing-dots" aria-label="Lucas está digitando">
+        <span />
+        <span />
+        <span />
       </div>
     </div>
   );
@@ -112,6 +84,14 @@ function ChatInputBar({
   onSubmit: (value: string) => void;
 }) {
   const [value, setValue] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!disabled) {
+      const timer = window.setTimeout(() => inputRef.current?.focus(), 50);
+      return () => window.clearTimeout(timer);
+    }
+  }, [disabled, placeholder]);
 
   function handleSubmit(event?: FormEvent) {
     event?.preventDefault();
@@ -129,27 +109,41 @@ function ChatInputBar({
 
   return (
     <div className="cf-input-wrap">
-      {error && <p className="cf-error">{error}</p>}
-      <form onSubmit={handleSubmit} className="cf-input-bar">
-        {prefix && <span className="cf-input-prefix">{prefix}</span>}
-        <input
-          type={inputType}
-          value={value}
-          disabled={disabled}
-          onChange={(event) => setValue(event.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder={placeholder}
-          className="cf-input"
-          autoComplete="off"
-        />
-        <button type="submit" disabled={disabled || !value.trim()} className="cf-send-btn" aria-label="Enviar">
-          <Send className="h-4 w-4" />
-        </button>
-      </form>
-      <p className="cf-privacy">
-        <Lock className="h-3 w-3" />
-        Seus dados estão seguros. Sem spam.
-      </p>
+      <div className="cf-input-inner">
+        {error && <p className="cf-error">{error}</p>}
+        <form onSubmit={handleSubmit} className="cf-input-row">
+          <div className="cf-input-gradient">
+            <div className="flex items-center min-h-[3rem] rounded-[10px] bg-slate-900/90">
+              {prefix && <span className="pl-3 pr-1 text-sm text-gray-400 shrink-0">{prefix}</span>}
+              <input
+                ref={inputRef}
+                type={inputType}
+                value={value}
+                disabled={disabled}
+                onChange={(event) => setValue(event.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder={placeholder}
+                className="cf-input !min-h-0 !bg-transparent flex-1"
+                autoComplete="off"
+              />
+            </div>
+          </div>
+          <div className={`cf-send-gradient ${!value.trim() ? "is-disabled" : ""}`}>
+            <button
+              type="submit"
+              disabled={disabled || !value.trim()}
+              className="cf-send-btn"
+              aria-label="Enviar"
+            >
+              <Send className="h-5 w-5" />
+            </button>
+          </div>
+        </form>
+        <p className="cf-privacy">
+          <Lock className="h-3 w-3" />
+          Seus dados estão seguros. Sem spam.
+        </p>
+      </div>
     </div>
   );
 }
@@ -163,7 +157,16 @@ export function ConversationalFormView() {
     captureUtms();
   }, []);
 
-  const { messages, currentStep, isTyping, error, isSubmitting, submitAnswer, setError } = useChatFlow({
+  const {
+    messages,
+    currentStep,
+    progress,
+    isTyping,
+    error,
+    isSubmitting,
+    submitAnswer,
+    setError,
+  } = useChatFlow({
     onComplete: async (values) => {
       try {
         await submitLeadForm(values);
@@ -184,42 +187,72 @@ export function ConversationalFormView() {
     setError(null);
   }, [currentStep, setError]);
 
+  const showInput = Boolean(currentStep) && !isSubmitting;
+  const inputPlaceholder =
+    currentStep?.kind === "choice"
+      ? "Ou digite..."
+      : currentStep?.placeholder ?? "Digite sua resposta...";
+
+  const inputType =
+    currentStep && currentStep.kind !== "choice"
+      ? currentStep.kind === "text"
+        ? "text"
+        : currentStep.kind
+      : "text";
+
   return (
-    <div className="cf-shell">
-      <ChatHeader onBack={closeForm} />
+    <div
+      className="cf-shell"
+      style={{ backgroundImage: `url(${CHAT_AGENT.backgroundSrc})` }}
+    >
+      <div className="cf-overlay-dark" />
+      <div className="cf-overlay-gradient" />
+
+      <header className="cf-header">
+        <div className="cf-header-inner">
+          <div className="cf-header-top">
+            <button
+              type="button"
+              onClick={closeForm}
+              className="cf-header-back"
+              aria-label="Voltar para a landing page"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </button>
+            <img src={CHAT_AGENT.logoSrc} alt="Genesis Company" className="cf-header-logo" />
+          </div>
+          <div className="cf-progress-track" aria-hidden>
+            <div className="cf-progress-bar" style={{ width: `${progress}%` }} />
+          </div>
+        </div>
+      </header>
 
       <div ref={scrollRef} className="cf-messages">
-        <div className="cf-messages-inner">
-          {messages.map((message) => (
-            <ChatBubble key={message.id} role={message.role} text={message.text} />
-          ))}
-          {isTyping && <ChatTypingIndicator />}
-        </div>
+        {messages.map((message) => (
+          <ChatBubble key={message.id} role={message.role} text={message.text} />
+        ))}
+        {isTyping && <ChatTypingIndicator />}
+
+        {currentStep?.kind === "choice" && (
+          <ChatOptionButtons
+            options={currentStep.options}
+            disabled={isTyping || isSubmitting}
+            onSelect={submitAnswer}
+          />
+        )}
+
+        {currentStep?.kind === "choice" && error && <p className="cf-error">{error}</p>}
       </div>
 
-      {currentStep?.kind === "choice" && (
-        <ChatOptionButtons
-          options={currentStep.options}
-          disabled={isTyping || isSubmitting}
-          onSelect={submitAnswer}
-        />
-      )}
-
-      {currentStep && currentStep.kind !== "choice" && (
+      {showInput && (
         <ChatInputBar
-          placeholder={currentStep.placeholder}
-          prefix={currentStep.prefix}
-          inputType={currentStep.kind === "text" ? "text" : currentStep.kind}
-          disabled={isTyping || isSubmitting}
-          error={error}
+          placeholder={inputPlaceholder}
+          prefix={currentStep?.kind !== "choice" ? currentStep?.prefix : undefined}
+          inputType={inputType}
+          disabled={isTyping}
+          error={currentStep?.kind === "choice" ? null : error}
           onSubmit={submitAnswer}
         />
-      )}
-
-      {currentStep?.kind === "choice" && error && (
-        <div className="cf-input-wrap">
-          <p className="cf-error">{error}</p>
-        </div>
       )}
     </div>
   );

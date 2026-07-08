@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { LeadFormValues } from "@/lib/lead-form-submission";
 import { FORM_STEPS } from "./config";
-import { getTypingDelay } from "./constants";
+import { CHAT_GREETING, getTypingDelay } from "./constants";
 import type { ChatMessage, FormStep } from "./types";
 
 function delay(ms: number) {
@@ -58,6 +58,7 @@ export function useChatFlow({ onComplete }: UseChatFlowOptions) {
     if (initialized.current) return;
     initialized.current = true;
     void enqueue(async () => {
+      await pushBotMessage(CHAT_GREETING);
       await pushBotMessage(FORM_STEPS[0].question({}));
     });
   }, [enqueue, pushBotMessage]);
@@ -98,6 +99,9 @@ export function useChatFlow({ onComplete }: UseChatFlowOptions) {
   return {
     messages,
     currentStep: isComplete ? null : currentStep,
+    stepIndex,
+    totalSteps: FORM_STEPS.length,
+    progress: Math.min(100, ((stepIndex + 1) / FORM_STEPS.length) * 100),
     isTyping,
     error,
     isSubmitting,

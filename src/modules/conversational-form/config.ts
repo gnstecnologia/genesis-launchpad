@@ -51,8 +51,7 @@ export const FORM_STEPS: FormStep[] = [
   {
     id: "nome",
     kind: "text",
-    question: () =>
-      "Olá! 👋 Aqui é o Lucas, da Genesis Company.\n\nVamos começar seu diagnóstico gratuito. Qual é o seu nome completo?",
+    question: () => "Qual é o seu nome completo?",
     placeholder: "Seu nome completo",
     validate: (value) => {
       if (!value.trim()) return "Este campo é obrigatório.";
