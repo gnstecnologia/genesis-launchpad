@@ -1,5 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { CtaButton, CtaLink } from "@/components/CtaButton";
+import {
+  ConversationalFormProvider,
+  ConversationalFormView,
+  FormCtaLink,
+  useConversationalForm,
+} from "@/modules/conversational-form";
 import { DeferredSection } from "@/components/DeferredSection";
 import { LazyVideo } from "@/components/LazyVideo";
 import { EcosystemOrbit } from "@/components/motion/EcosystemOrbit";
@@ -63,6 +69,20 @@ export const Route = createFileRoute("/")({
 });
 
 function LandingPage() {
+  return (
+    <ConversationalFormProvider>
+      <LandingPageContent />
+    </ConversationalFormProvider>
+  );
+}
+
+function LandingPageContent() {
+  const { isOpen } = useConversationalForm();
+
+  if (isOpen) {
+    return <ConversationalFormView />;
+  }
+
   return (
     <div className="min-h-screen text-foreground overflow-x-hidden">
       <TopBar />
@@ -582,9 +602,9 @@ function PainSection() {
         ))}
       </div>
       <div className="mt-10 flex justify-center">
-        <CtaLink href="#diagnostico" icon={Zap}>
+        <FormCtaLink icon={Zap}>
           Quero resolver esses problemas
-        </CtaLink>
+        </FormCtaLink>
       </div>
     </section>
   );
@@ -606,9 +626,9 @@ function PositioningSection() {
             Enquanto você foca na gestão da empresa, a Genesis Company estrutura o marketing para gerar clareza, posicionamento e oportunidades comerciais todos os meses.
           </p>
           <div className="flex justify-center lg:justify-start mt-6">
-            <CtaLink href="#diagnostico" icon={Building2}>
+            <FormCtaLink icon={Building2}>
               Quero esse departamento na minha empresa
-            </CtaLink>
+            </FormCtaLink>
           </div>
         </div>
 
@@ -688,9 +708,9 @@ function ServicesSection() {
         ))}
       </div>
       <div className="mt-10 flex justify-center">
-        <CtaLink href="#diagnostico" icon={Users}>
+        <FormCtaLink icon={Users}>
           Quero esse time na minha empresa
-        </CtaLink>
+        </FormCtaLink>
       </div>
     </section>
   );
@@ -756,9 +776,9 @@ function BeforeAfterSection() {
         </div>
       </div>
       <div className="mt-10 flex justify-center">
-        <CtaLink href="#diagnostico" icon={TrendingUp}>
+        <FormCtaLink icon={TrendingUp}>
           Quero crescimento previsível
-        </CtaLink>
+        </FormCtaLink>
       </div>
     </section>
   );
@@ -791,9 +811,9 @@ function ForWhoSection() {
         ))}
       </div>
       <div className="mt-10 flex justify-center">
-        <CtaLink href="#diagnostico" icon={CheckCircle2}>
+        <FormCtaLink icon={CheckCircle2}>
           Sou esse perfil — quero começar
-        </CtaLink>
+        </FormCtaLink>
       </div>
     </section>
   );
@@ -833,9 +853,9 @@ function ProcessSection() {
         </div>
       </div>
       <div className="mt-10 flex justify-center">
-        <CtaLink href="#diagnostico" icon={Sparkles}>
+        <FormCtaLink icon={Sparkles}>
           Quero meu diagnóstico gratuito
-        </CtaLink>
+        </FormCtaLink>
       </div>
     </section>
   );
@@ -861,9 +881,9 @@ function FinalCTA() {
               A Genesis Company pode ser o departamento de marketing que conecta sua marca, suas campanhas e seu comercial em uma estratégia feita para gerar resultado.
             </p>
             <div className="mt-6 flex flex-wrap gap-3 justify-center lg:justify-start">
-              <CtaLink href="#diagnostico" icon={MessageSquare}>
+              <FormCtaLink icon={MessageSquare}>
                 Falar com a Genesis Company
-              </CtaLink>
+              </FormCtaLink>
               <CtaLink href="#servicos" icon={List} variant="ghost">
                 Ver serviços novamente
               </CtaLink>
@@ -880,9 +900,9 @@ function FinalCTA() {
                 </li>
               ))}
             </ol>
-            <CtaLink href="#diagnostico" icon={Sparkles} variant="ghost" className="w-full mt-6 justify-center">
+            <FormCtaLink icon={Sparkles} variant="ghost" className="w-full mt-6 justify-center">
               Ir para o formulário
-            </CtaLink>
+            </FormCtaLink>
           </div>
         </div>
       </div>
@@ -932,9 +952,9 @@ function VideoShowcaseSection() {
           </div>
         </div>
         <div className="mt-16 text-center flex justify-center">
-          <CtaLink href="#diagnostico" icon={Video}>
+          <FormCtaLink icon={Video}>
             Quero conteúdo assim
-          </CtaLink>
+          </FormCtaLink>
         </div>
       </div>
     </section>
@@ -1003,9 +1023,9 @@ function AboutSection() {
         </div>
       </div>
       <div className="mt-10 flex justify-center">
-        <CtaLink href="#diagnostico" icon={Rocket}>
+        <FormCtaLink icon={Rocket}>
           Quero trabalhar com a Genesis
-        </CtaLink>
+        </FormCtaLink>
       </div>
     </section>
   );
