@@ -1,28 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, MessageSquare } from "lucide-react";
-import { useEffect, useState } from "react";
-import { TestimonialPlayer } from "@/components/TestimonialPlayer";
-
-/** Troque pelo vídeo definitivo da página de obrigado quando estiver pronto */
-const OBRIGADO_VIDEO_SRC = "/videos/video-1-Andre.mp4";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const WHATSAPP_URL =
   "https://wa.me/5521996526969?text=Ol%C3%A1%21%20Acabei%20de%20preencher%20o%20diagn%C3%B3stico%20e%20n%C3%A3o%20quero%20perder%20tempo.%20Quero%20falar%20com%20um%20especialista.";
 
-const CTA_DELAY_MS = 5000;
 
 export const Route = createFileRoute("/obrigado")({
+  head: () => ({
+    links: [
+      {
+        rel: "stylesheet",
+        href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+      },
+    ],
+  }),
   component: ObrigadoPage,
 });
 
 function ObrigadoPage() {
-  const [showCta, setShowCta] = useState(false);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setShowCta(true), CTA_DELAY_MS);
-    return () => window.clearTimeout(timer);
-  }, []);
-
   return (
     <div
       className="min-h-screen text-foreground flex flex-col"
@@ -62,42 +57,24 @@ function ObrigadoPage() {
         </h1>
 
         <p className="mt-3 text-[13px] sm:text-base text-muted-foreground max-w-md leading-relaxed">
-          Antes de seguir, assista ao vídeo abaixo. Em seguida, você pode falar direto com um especialista da
-          Genesis.
+          Nossa equipe analisará suas informações e entrará em contato em breve. Se preferir, você pode falar
+          direto com um especialista da Genesis.
         </p>
-
-        <div className="mt-8 w-full max-w-2xl">
-          <div className="glass-strong rounded-2xl sm:rounded-3xl p-3 sm:p-4 overflow-hidden">
-            <TestimonialPlayer src={OBRIGADO_VIDEO_SRC} title="Mensagem Genesis Company" />
-          </div>
-        </div>
 
         <div className="mt-8 min-h-[3.75rem] flex flex-col items-center justify-center gap-3 w-full max-w-md">
           <a
             href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-flex w-full items-center justify-center gap-2.5 px-6 py-3.5 rounded-full font-bold text-[11px] sm:text-sm text-white tracking-[0.06em] uppercase transition-all duration-500 ${
-              showCta
-                ? "opacity-100 translate-y-0 pointer-events-auto"
-                : "opacity-0 translate-y-3 pointer-events-none"
-            }`}
+            className="inline-flex w-full items-center justify-center gap-2.5 px-6 py-3.5 rounded-full font-bold text-[11px] sm:text-sm text-white tracking-[0.06em] uppercase transition-all duration-300 animate-fade-up"
             style={{
               background: "#25D366",
-              boxShadow: showCta ? "0 12px 40px -12px #25D36699" : "none",
+              boxShadow: "0 12px 40px -12px #25D36699",
             }}
-            aria-hidden={!showCta}
-            tabIndex={showCta ? 0 : -1}
           >
-            <MessageSquare className="h-4 w-4 shrink-0" />
+            <i className="fa-brands fa-whatsapp text-lg shrink-0" aria-hidden />
             Não quero perder tempo — falar com especialista
           </a>
-
-          {!showCta && (
-            <p className="text-[11px] text-muted-foreground animate-pulse">
-              O botão aparece em alguns segundos...
-            </p>
-          )}
         </div>
 
         <Link
