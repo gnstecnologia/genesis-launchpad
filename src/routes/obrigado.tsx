@@ -73,7 +73,10 @@ function ObrigadoPage() {
             }}
           >
             <i className="fa-brands fa-whatsapp text-lg shrink-0" aria-hidden />
-            Não quero perder tempo — falar com especialista
+            <span className="leading-tight">
+              Não quero perder tempo |<br />
+              falar com especialista
+            </span>
           </a>
         </div>
 
