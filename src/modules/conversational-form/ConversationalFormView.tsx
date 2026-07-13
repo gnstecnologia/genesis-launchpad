@@ -1,6 +1,6 @@
 import { ArrowLeft, Lock, Send } from "lucide-react";
 import type { FormEvent, KeyboardEvent } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { captureUtms, submitLeadForm } from "@/lib/lead-form-submission";
 import { CHAT_AGENT } from "./constants";
@@ -163,6 +163,7 @@ export function ConversationalFormView() {
   const navigate = useNavigate();
   const { closeForm } = useConversationalForm();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     captureUtms();
@@ -188,10 +189,26 @@ export function ConversationalFormView() {
     },
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const node = scrollRef.current;
+    const anchor = bottomRef.current;
     if (!node) return;
-    node.scrollTop = node.scrollHeight;
+
+    const scrollToBottom = () => {
+      if (anchor) {
+        anchor.scrollIntoView({ block: "end", behavior: "auto" });
+      }
+      node.scrollTop = node.scrollHeight;
+    };
+
+    scrollToBottom();
+    const raf = window.requestAnimationFrame(scrollToBottom);
+    const timer = window.setTimeout(scrollToBottom, 80);
+
+    return () => {
+      window.cancelAnimationFrame(raf);
+      window.clearTimeout(timer);
+    };
   }, [messages, isTyping, error, currentStep]);
 
   useEffect(() => {
@@ -239,20 +256,23 @@ export function ConversationalFormView() {
       </header>
 
       <div ref={scrollRef} className="cf-messages">
-        {messages.map((message) => (
-          <ChatBubble key={message.id} role={message.role} text={message.text} />
-        ))}
-        {isTyping && <ChatTypingIndicator />}
+        <div className="cf-messages-inner">
+          {messages.map((message) => (
+            <ChatBubble key={message.id} role={message.role} text={message.text} />
+          ))}
+          {isTyping && <ChatTypingIndicator />}
 
-        {currentStep?.kind === "choice" && (
-          <ChatOptionButtons
-            options={currentStep.options}
-            disabled={isTyping || isSubmitting}
-            onSelect={submitAnswer}
-          />
-        )}
+          {currentStep?.kind === "choice" && !isTyping && (
+            <ChatOptionButtons
+              options={currentStep.options}
+              disabled={isSubmitting}
+              onSelect={submitAnswer}
+            />
+          )}
 
-        {currentStep?.kind === "choice" && error && <p className="cf-error">{error}</p>}
+          {currentStep?.kind === "choice" && error && <p className="cf-error">{error}</p>}
+          <div ref={bottomRef} className="cf-scroll-anchor" aria-hidden />
+        </div>
       </div>
 
       {showInput && (

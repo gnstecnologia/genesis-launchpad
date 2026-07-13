@@ -1,14 +1,14 @@
 /* Visual alinhado ao formschat-genesis (ChatForm.tsx) */
 .cf-shell {
   --cf-brand-gradient: linear-gradient(135deg, #e42888, #0054a8, #00bc62);
-  min-height: 100dvh;
+  height: 100dvh;
+  max-height: 100dvh;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
   background-size: cover;
   background-position: right center;
-  background-attachment: fixed;
   color: #f3f4f6;
 }
 
@@ -17,6 +17,7 @@
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
   pointer-events: none;
+  z-index: 0;
 }
 
 .cf-overlay-gradient {
@@ -24,14 +25,13 @@
   inset: 0;
   background: linear-gradient(to bottom, transparent, transparent, rgba(0, 0, 0, 0.6));
   pointer-events: none;
+  z-index: 0;
 }
 
 .cf-header {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
+  position: relative;
   z-index: 40;
+  flex-shrink: 0;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -92,14 +92,22 @@
 .cf-messages {
   position: relative;
   z-index: 10;
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
-  max-width: 56rem;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   width: 100%;
-  margin: 0 auto;
-  padding: 5.75rem 1rem 6.5rem;
   scrollbar-width: thin;
   scrollbar-color: rgba(45, 212, 191, 0.5) transparent;
+}
+
+.cf-messages-inner {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .cf-messages::-webkit-scrollbar {
@@ -111,9 +119,15 @@
   border-radius: 9999px;
 }
 
+.cf-scroll-anchor {
+  width: 100%;
+  height: 1px;
+  flex-shrink: 0;
+}
+
 .cf-row {
   display: flex;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   animation: cf-fade-up 0.4s ease both;
 }
 
@@ -128,12 +142,13 @@
 .cf-row-inner {
   display: flex;
   gap: 0.75rem;
-  max-width: 20rem;
+  max-width: min(85%, 22rem);
+  min-width: 0;
 }
 
 @media (min-width: 1024px) {
   .cf-row-inner {
-    max-width: 28rem;
+    max-width: min(75%, 28rem);
   }
 }
 
@@ -161,7 +176,9 @@
   font-size: 0.875rem;
   line-height: 1.55;
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
   word-break: break-word;
+  min-width: 0;
 }
 
 .cf-bubble-bot {
@@ -181,7 +198,7 @@
 .cf-typing-row {
   display: flex;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   animation: cf-fade-up 0.3s ease both;
 }
 
@@ -209,10 +226,11 @@
 }
 
 .cf-options {
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   display: grid;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .cf-option-btn {
@@ -240,13 +258,12 @@
 }
 
 .cf-input-wrap {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   z-index: 20;
-  padding: 0.75rem 1rem max(1rem, env(safe-area-inset-bottom));
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.8), transparent);
+  flex-shrink: 0;
+  padding: 0.75rem 1rem max(0.75rem, env(safe-area-inset-bottom));
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 55%, rgba(0, 0, 0, 0.85));
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .cf-input-inner {
@@ -330,10 +347,10 @@
 
 .cf-privacy {
   max-width: 56rem;
-  margin: 0.65rem auto 0;
+  margin: 0.55rem auto 0;
   text-align: center;
-  font-size: 0.62rem;
-  line-height: 1.45;
+  font-size: 0.58rem;
+  line-height: 1.4;
   color: #9ca3af;
 }
 
@@ -342,8 +359,8 @@
   align-items: center;
   justify-content: center;
   gap: 0.35rem;
-  margin-bottom: 0.45rem;
-  font-size: 0.68rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.64rem;
 }
 
 .cf-privacy-links {
@@ -351,7 +368,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.65rem;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.25rem;
 }
 
 .cf-privacy-links a {
@@ -365,7 +382,7 @@
 }
 
 .cf-privacy p {
-  margin: 0.15rem 0;
+  margin: 0.1rem 0;
 }
 
 .cf-privacy strong {
@@ -376,7 +393,7 @@
 @keyframes cf-fade-up {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
