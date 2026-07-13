@@ -1,4 +1,4 @@
-import { ArrowLeft, Lock, Send } from "lucide-react";
+import { ArrowLeft, Send } from "lucide-react";
 import type { FormEvent, KeyboardEvent } from "react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
@@ -139,21 +139,6 @@ function ChatInputBar({
             </button>
           </div>
         </form>
-        <div className="cf-privacy">
-          <p className="cf-privacy-lock">
-            <Lock className="h-3 w-3" />
-            Seus dados estão seguros. Sem spam.
-          </p>
-          <div className="cf-privacy-links">
-            <a href="#">Política de Privacidade</a>
-            <a href="#">Termos de Uso</a>
-          </div>
-          <p>
-            <strong>Genesis Company</strong> · CNPJ 52.906.973/0001-98
-          </p>
-          <p>Contato: contato@companygenesis.com.br</p>
-          <p>© {new Date().getFullYear()} Genesis Company · Todos os direitos reservados</p>
-        </div>
       </div>
     </div>
   );
